@@ -77,9 +77,9 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                       padding: const EdgeInsets.only(right: 5.0,left:5.0),
                       child:
                       cont.language == "English"
-                          ? buildRichTextWidget("Work Order Number: ", cont.workOrderNumberToShow.toString(),
+                          ? buildRichTextWidget("Demand Number: ",  cont.demandNoToShow.toString(),
                           title1Size: 18.0,title2Size: 18.0)
-                          : buildRichTextWidget("वर्क ऑर्डर क्र.: ", cont.workOrderNumberToShow.toString(),
+                          : buildRichTextWidget("मागणी क्र.: ",  cont.demandNoToShow.toString(),
                           title1Size: 18.0,title2Size: 18.0)
                     )  ),
                 const SizedBox(height: 10.0,),
@@ -117,17 +117,17 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Flexible(
-                      child: Radio(
-                          activeColor: Colors.red,
-                          value: 0,
-                          groupValue: cont.radioValue,
-                          onChanged: (val){cont.handleRadioValueChanged(val!);}),
-                    ),
-
-                    cont.language == "English"
-                    ? buildTextBoldWidget("Before", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
-                    : buildTextBoldWidget("आधी", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
+                    // Flexible(
+                    //   child: Radio(
+                    //       activeColor: Colors.red,
+                    //       value: 0,
+                    //       groupValue: cont.radioValue,
+                    //       onChanged: (val){cont.handleRadioValueChanged(val!);}),
+                    // ),
+                    //
+                    // cont.language == "English"
+                    // ? buildTextBoldWidget("Before", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
+                    // : buildTextBoldWidget("आधी", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
                     Flexible(
                       child: Radio<int>(
                           activeColor: Colors.red,
@@ -136,7 +136,7 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                           onChanged: (val){cont.handleRadioValueChanged(val!);}),
                     ),
                     cont.language == "English"
-                    ? buildTextBoldWidget("After", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
+                    ? buildTextBoldWidget("Physics Progress", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
                     : buildTextBoldWidget("नंतर", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
                   ],
                 ),
@@ -234,31 +234,31 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                           cont.validateUploadPhoto();
                         },
                         child: const Text(
-                          'Capture',
+                          'Save Photo',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                     ),
                     const SizedBox(width: 10.0),
-                    Flexible(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.green, backgroundColor: Colors.orange,
-                          minimumSize: const Size(90, 40),
-                          padding: const EdgeInsets.symmetric(horizontal: 35),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                        ),
-                        onPressed: () {
-                         Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
-                        },
-                        child: const Text(
-                          'Back',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
+                    // Flexible(
+                    //   child: ElevatedButton(
+                    //     style: ElevatedButton.styleFrom(
+                    //       foregroundColor: Colors.green, backgroundColor: Colors.orange,
+                    //       minimumSize: const Size(90, 40),
+                    //       padding: const EdgeInsets.symmetric(horizontal: 35),
+                    //       shape: const RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.all(Radius.circular(20)),
+                    //       ),
+                    //     ),
+                    //     onPressed: () {
+                    //      Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
+                    //     },
+                    //     child: const Text(
+                    //       'Back',
+                    //       style: TextStyle(color: Colors.white, fontSize: 20),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 )
               ],

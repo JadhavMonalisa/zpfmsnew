@@ -252,6 +252,7 @@ class DashboardController extends GetxController {
 
   int workIdFromWorkOrder = 0;
   String workOrderNumberToShow = "";
+  String demandNo="";
   navigateToBillDataFromWorkOrder(int workId,String workNo){
     isLoading=true;
     workIdFromWorkOrder = workId;
@@ -292,10 +293,12 @@ class DashboardController extends GetxController {
     }
   }
 
+  String demandNoToShow = "";
   navigateToTrackBillFromWorkOrder(int billId){
     isLoading=true;
     //Get.toNamed(AppRoutes.trackBillFromWorkOrder);
     //callTrackBillFromWorkOrderDataApi(billId);
+    demandNoToShow = demandNo;
     callBillDetailsFromTrackBill(billId);
     update();
   }

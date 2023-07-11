@@ -167,6 +167,9 @@ class ApiRepository {
 
     var params = {"PartyID": partyId,};
     request.body = jsonEncode(params);
+    print("params");
+    print(params);
+    print(token);
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();
 

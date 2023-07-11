@@ -80,34 +80,34 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                       ),
                     ),
                     const SizedBox(height: 10.0,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          child: Radio(
-                              activeColor: Colors.red,
-                              value: 0,
-                              groupValue: cont.radioValueOnPhotoList,
-                              onChanged: (val){cont.radioChangeAndCallApi(val!,"Before");}),
-                        ),
-
-                        cont.language == "English"
-                            ? buildTextBoldWidget("Before", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
-                            : buildTextBoldWidget("आधी", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
-                        Flexible(
-                          child: Radio<int>(
-                              activeColor: Colors.red,
-                              value: 1,
-                              groupValue: cont.radioValueOnPhotoList,
-                              onChanged: (val){cont.radioChangeAndCallApi(val!,"After");}),
-                        ),
-                        cont.language == "English"
-                            ? buildTextBoldWidget("After", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
-                            : buildTextBoldWidget("नंतर", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
-                      ],
-                    ),
-                    const SizedBox(height: 10.0,),
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     Flexible(
+                    //       child: Radio(
+                    //           activeColor: Colors.red,
+                    //           value: 0,
+                    //           groupValue: cont.radioValueOnPhotoList,
+                    //           onChanged: (val){cont.radioChangeAndCallApi(val!,"Before");}),
+                    //     ),
+                    //
+                    //     cont.language == "English"
+                    //         ? buildTextBoldWidget("Before", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
+                    //         : buildTextBoldWidget("आधी", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
+                    //     Flexible(
+                    //       child: Radio<int>(
+                    //           activeColor: Colors.red,
+                    //           value: 1,
+                    //           groupValue: cont.radioValueOnPhotoList,
+                    //           onChanged: (val){cont.radioChangeAndCallApi(val!,"After");}),
+                    //     ),
+                    //     cont.language == "English"
+                    //         ? buildTextBoldWidget("After", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
+                    //         : buildTextBoldWidget("नंतर", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
+                    //   ],
+                    // ),
+                    // const SizedBox(height: 10.0,),
                     // ListView.builder(
                     //     shrinkWrap: true,
                     //     itemCount: cont.testViewPhotoList.length,
@@ -164,46 +164,58 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                   cont.uploadedPhotoList[index].createdDate == cont.imgList[imgIndex].createdDate ?
                                                   Padding(
                                                       padding: const EdgeInsets.all(5.0),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      child: Column(
                                                         children: [
-                                                          GestureDetector(
-                                                            onTap: (){
-                                                              cont.imgList[imgIndex].img == null
-                                                                  ?  ScaffoldMessenger.of(context).showSnackBar(
-                                                                const SnackBar(content: Text('Can\'t view image!')),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: (){
+                                                                  cont.imgList[imgIndex].img == null
+                                                                      ?  ScaffoldMessenger.of(context).showSnackBar(
+                                                                    const SnackBar(content: Text('Can\'t view image!')),
+                                                                  )
+                                                                      : cont.navigateToViewImage(cont.imgList[imgIndex].img!);
+                                                                },
+                                                                child: Container(
+                                                                    height: 100.0,
+                                                                    width: 100.0,
+                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                                    child: cont.imgList[imgIndex].img == null ?
+                                                                    Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
+                                                                    Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
+                                                                      errorBuilder: (BuildContext context, Object object, StackTrace? stack){
+                                                                        return Padding(padding: const EdgeInsets.only(top: 30.0),
+                                                                            child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
+                                                                      },)
+                                                                ),
+                                                              ),
+                                                              const SizedBox(width: 10.0),
+                                                              Flexible(
+                                                                child: Table(
+                                                                  columnWidths: const {
+                                                                    0: FlexColumnWidth(5),
+                                                                    1: FlexColumnWidth(5),
+                                                                  },
+                                                                  children: [
+                                                                    buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
+                                                                    buildTableRowForPhoto(context,"Latitude : ","${cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
+                                                                    buildTableRowForPhoto(context,"Longitude : ","${cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
+                                                                    // buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
+                                                                  ],
+                                                                ),
                                                               )
-                                                                  : cont.navigateToViewImage(cont.imgList[imgIndex].img!);
-                                                            },
-                                                            child: Container(
-                                                                height: 100.0,
-                                                                width: 100.0,
-                                                                decoration: BoxDecoration(border: Border.all(color: Colors.black),),
-                                                                child: cont.imgList[imgIndex].img == null ?
-                                                                Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
-                                                                Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
-                                                                  errorBuilder: (BuildContext context, Object object, StackTrace? stack){
-                                                                    return Padding(padding: const EdgeInsets.only(top: 30.0),
-                                                                        child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
-                                                                  },)
-                                                            ),
+                                                            ],
                                                           ),
-                                                          const SizedBox(width: 10.0),
-                                                          Flexible(
-                                                            child: Table(
-                                                              columnWidths: const {
-                                                                0: FlexColumnWidth(5),
-                                                                1: FlexColumnWidth(5),
-                                                              },
-                                                              children: [
-                                                                buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
-                                                                buildTableRowForPhoto(context,"Latitude : ","${cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
-                                                                buildTableRowForPhoto(context,"Longitude : ","${cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
-                                                                buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
-                                                              ],
-                                                            ),
-                                                          )
+
+                                                          const SizedBox(height: 5.0,),
+                                                          Align(
+                                                            alignment: Alignment.topLeft,
+                                                            child:buildRichTextWidget("Address : ", "${cont.imgList[imgIndex].location}",
+                                                              title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                                                          ),
+                                                          const Divider(thickness: 2.0,),
                                                         ],
                                                       )
                                                   )

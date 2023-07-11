@@ -84,9 +84,10 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context,index){
                                 final item = cont.billDataFromWorkOrderList[index];
+                                cont.demandNoToShow = item.demandNo!;
                                 return GestureDetector(
                                   onTap: (){
-                                    cont.navigateToTrackBillFromWorkOrder(int.parse(item.billID!));
+                                    //cont.navigateToTrackBillFromWorkOrder(int.parse(item.billID!));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),

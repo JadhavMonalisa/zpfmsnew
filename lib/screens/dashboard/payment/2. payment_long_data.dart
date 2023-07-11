@@ -111,11 +111,11 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               cont.language == "English"
                                                   ? TableRow(
                                                   children: [
-                                                    buildTextBoldWidget("Bill Number", Colors.black, context, 15.0,align: TextAlign.left),
+                                                    buildTextBoldWidget("Demand Number", Colors.black, context, 15.0,align: TextAlign.left),
                                                     buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                     RichText(
                                                       text: TextSpan(
-                                                        text: "${cont.paymentTypeList[index].billID.toString()}  ",
+                                                        text: "${cont.paymentTypeList[index].demandNo.toString()}  ",
                                                         style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                         children: <TextSpan>[
                                                           TextSpan(
@@ -125,7 +125,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                                             recognizer: TapGestureRecognizer()..onTap = () {
                                                               setState(() {
                                                                 cont.isLoading=true;
-                                                                Clipboard.setData(ClipboardData(text:cont.paymentTypeList[index].billID.toString()));
+                                                                Clipboard.setData(ClipboardData(text:cont.paymentTypeList[index].demandNo.toString()));
                                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                                   const SnackBar(content: Text("Copied!")),
                                                                 );
@@ -140,11 +140,11 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               )
                                                   : TableRow(
                                                   children: [
-                                                    buildTextBoldWidget("बिल क्र.", Colors.black, context, 15.0,align: TextAlign.left),
+                                                    buildTextBoldWidget("मागणी क्र.", Colors.black, context, 15.0,align: TextAlign.left),
                                                     buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                     RichText(
                                                       text: TextSpan(
-                                                        text: "${cont.paymentTypeList[index].billID.toString()}  ",
+                                                        text: "${cont.paymentTypeList[index].demandNo.toString()}  ",
                                                         style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                         children: <TextSpan>[
                                                           TextSpan(
@@ -154,7 +154,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                                             recognizer: TapGestureRecognizer()..onTap = () {
                                                               setState(() {
                                                                 cont.isLoading=true;
-                                                                Clipboard.setData(ClipboardData(text:cont.paymentTypeList[index].billID.toString()));
+                                                                Clipboard.setData(ClipboardData(text:cont.paymentTypeList[index].demandNo.toString()));
                                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                                   const SnackBar(content: Text("कॉपी केले!")),
                                                                 );
@@ -208,9 +208,14 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               buildSpaceTableRow(),
 
                                               cont.language == "English"
-                                                  ? buildTableRow(context, "Work Order No", "${cont.paymentTypeList[index].demandNo}")
-                                                  : buildTableRow(context, "वर्क ऑर्डर क्र.", "${cont.paymentTypeList[index].demandNo}"),
+                                                  ? buildTableRow(context, "Work Order No", "${cont.paymentTypeList[index].workOrderNo}")
+                                                  : buildTableRow(context, "वर्क ऑर्डर क्र.", "${cont.paymentTypeList[index].workOrderNo}"),
                                               buildSpaceTableRow(),
+
+                                              // cont.language == "English"
+                                              //     ? buildTableRow(context, "Demand No", "${cont.paymentTypeList[index].demandNo}")
+                                              //     : buildTableRow(context, "मागणी क्र.", "${cont.paymentTypeList[index].demandNo}"),
+                                              // buildSpaceTableRow(),
 
                                               cont.language == "English"
                                                   ? buildTableRow(context, "Work Order Name", "${cont.paymentTypeList[index].workName}")

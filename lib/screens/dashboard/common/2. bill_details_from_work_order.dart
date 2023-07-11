@@ -103,7 +103,7 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                          },
                                          children: [
                                            cont.language == "English"
-                                           ? buildTableRow(context, "Sr. No", "${index+1}")
+                                           ? buildTableRow(context, "Sr. No.", "${index+1}")
                                            : buildTableRow(context, "अनु. क्र.", "${index+1}"),
                                            buildSpaceTableRow(),
 
@@ -123,11 +123,11 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                            cont.language == "English"
                                            ? TableRow(
                                                children: [
-                                                 buildTextBoldWidget("Bill Number", Colors.black, context, 15.0,align: TextAlign.left),
+                                                 buildTextBoldWidget("Demand Number", Colors.black, context, 15.0,align: TextAlign.left),
                                                  buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                  RichText(
                                                    text: TextSpan(
-                                                     text: "${item.billID.toString()}  ",
+                                                     text: "${item.demandNo.toString()}  ",
                                                      style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                      children: <TextSpan>[
                                                        TextSpan(
@@ -137,7 +137,7 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                                          recognizer: TapGestureRecognizer()..onTap = () {
                                                            setState(() {
                                                              cont.isLoading=true;
-                                                             Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                             Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                              ScaffoldMessenger.of(context).showSnackBar(
                                                                const SnackBar(content: Text("Copied!")),
                                                              );
@@ -145,7 +145,6 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                                            });
                                                          },
                                                        ),
-
                                                      ],
                                                    ),
                                                  )
@@ -153,11 +152,11 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                            )
                                            : TableRow(
                                                children: [
-                                                 buildTextBoldWidget("बिल क्र.", Colors.black, context, 15.0,align: TextAlign.left),
+                                                 buildTextBoldWidget("मागणी क्र.", Colors.black, context, 15.0,align: TextAlign.left),
                                                  buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                  RichText(
                                                    text: TextSpan(
-                                                     text: "${item.billID.toString()}  ",
+                                                     text: "${item.demandNo.toString()}  ",
                                                      style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                      children: <TextSpan>[
                                                        TextSpan(
@@ -167,7 +166,7 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                                          recognizer: TapGestureRecognizer()..onTap = () {
                                                            setState(() {
                                                              cont.isLoading=true;
-                                                             Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                             Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                              ScaffoldMessenger.of(context).showSnackBar(
                                                                const SnackBar(content: Text("कॉपी केले!")),
                                                              );
@@ -245,6 +244,32 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                            buildTableRow(context, "यूटीआर क्र.", "${item.utrno}"),
                                            buildSpaceTableRow(),
                                          ],
+                                       ),
+                                       GestureDetector(
+                                           onTap: (){
+                                             cont.navigateToUploadedPhotos(int.parse(item.billID!),item.workOrderNo!);
+                                           },
+                                           child: Table(
+                                             columnWidths: const {
+                                               0: FlexColumnWidth(5),
+                                               1: FlexColumnWidth(1),
+                                               2: FlexColumnWidth(4),
+                                             },
+                                             children: [
+                                               TableRow(
+                                                   children: [
+                                                     cont.language == "English"
+                                                         ? buildTextBoldWidget("Previous Photos", Colors.black, context, 15.0)
+                                                         : buildTextBoldWidget("मागील फोटो", Colors.black, context, 15.0),
+                                                     buildTextBoldWidget(":", Colors.black, context, 15.0),
+                                                     Transform(
+                                                       transform: Matrix4.translationValues(-60.0, 0.0, 0.0),
+                                                       child:const Icon(Icons.photo),
+                                                     ),
+                                                   ]
+                                               )
+                                             ],
+                                           )
                                        ),
                                      ],
                                    ),

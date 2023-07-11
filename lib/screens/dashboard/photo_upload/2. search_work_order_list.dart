@@ -179,13 +179,6 @@ class _SearchWorkOrderListState extends State<SearchWorkOrderList> {
                                                         ? buildTextBoldWidget("Previous Photos", Colors.black, context, 15.0)
                                                         : buildTextBoldWidget("मागील फोटो", Colors.black, context, 15.0),
                                                         buildTextBoldWidget(":", Colors.black, context, 15.0),
-                                                        // cont.language == "English"
-                                                        //     ? const Text('Previous Photo',
-                                                        //   style: TextStyle(color: Colors.black, fontSize: 15),
-                                                        // )
-                                                        //     : const Text('मागील फोटो पहा',
-                                                        //   style: TextStyle(color: Colors.black, fontSize: 15),
-                                                        // ),
                                                         Transform(
                                                           transform: Matrix4.translationValues(-60.0, 0.0, 0.0),
                                                           child:const Icon(Icons.photo),
