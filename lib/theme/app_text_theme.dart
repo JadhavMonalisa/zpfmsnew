@@ -20,8 +20,8 @@ buildTextMediumWidget(String title,Color textColor,BuildContext context,double t
 
 ///font bold
 buildTextBoldWidget(String title,Color textColor,BuildContext context,double textSize,{FontWeight fontWeight=FontWeight.bold,
-  TextAlign align=TextAlign.justify,double letterSpacing=0.0,FontStyle fontStyle=FontStyle.normal,int maxLines=5,
+  TextAlign align=TextAlign.justify,double letterSpacing=0.0,FontStyle fontStyle=FontStyle.normal,
   TextDecoration decoration=TextDecoration.none,}){
   return Text(title,style: GoogleFonts.rubik(textStyle: TextStyle(fontSize: textSize,color: textColor, fontWeight: fontWeight, letterSpacing: letterSpacing,
-    fontStyle: fontStyle, decoration:decoration)),maxLines: maxLines, textAlign: align);
+    fontStyle: fontStyle, decoration:decoration)),textAlign: align);
 }

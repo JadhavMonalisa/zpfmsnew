@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
+import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -20,7 +21,9 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (cont){
-      return Scaffold(
+      return WillPopScope(
+          onWillPop: () async {return await Get.toNamed(AppRoutes.paymentShortDataScreen);},
+      child:Scaffold(
         key: pSKey2,
         drawer: const NavDrawer(),
         appBar: AppBar(
@@ -62,7 +65,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                 SingleChildScrollView(
                     child:
                     cont.isLoading ? buildCircularIndicator():
-                   cont.paymentTypeList.isEmpty ? buildNoDataFound(context) :
+                    cont.paymentTypeList.isEmpty ? buildNoDataFound(context) :
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0,right: 20.0,bottom: 20.0,top: 20.0),
                       child: Align(
@@ -72,6 +75,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: cont.paymentTypeList.length,
                             itemBuilder: (context,index){
+                              cont.demandNoToShow =cont.paymentTypeList.isEmpty?"":cont.paymentTypeList[index].demandNo!;
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: Container(
@@ -91,7 +95,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                             },
                                             children: [
                                               cont.language == "English"
-                                                  ? buildTableRow(context, "Sr. No", "${index+1}")
+                                                  ? buildTableRow(context, "Sr. No.", "${index+1}")
                                                   : buildTableRow(context, "अनु. क्र.", "${index+1}"),
                                               buildSpaceTableRow(),
 
@@ -208,14 +212,9 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               buildSpaceTableRow(),
 
                                               cont.language == "English"
-                                                  ? buildTableRow(context, "Work Order No", "${cont.paymentTypeList[index].workOrderNo}")
+                                                  ? buildTableRow(context, "Work Order No.", "${cont.paymentTypeList[index].workOrderNo}")
                                                   : buildTableRow(context, "वर्क ऑर्डर क्र.", "${cont.paymentTypeList[index].workOrderNo}"),
                                               buildSpaceTableRow(),
-
-                                              // cont.language == "English"
-                                              //     ? buildTableRow(context, "Demand No", "${cont.paymentTypeList[index].demandNo}")
-                                              //     : buildTableRow(context, "मागणी क्र.", "${cont.paymentTypeList[index].demandNo}"),
-                                              // buildSpaceTableRow(),
 
                                               cont.language == "English"
                                                   ? buildTableRow(context, "Work Order Name", "${cont.paymentTypeList[index].workName}")
@@ -233,11 +232,63 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               buildSpaceTableRow(),
 
                                               cont.language == "English"
-                                                  ? buildTableRow(context, "UTR No", "${cont.paymentTypeList[index].utrno}")
+                                                  ? buildTableRow(context, "UTR No.", "${cont.paymentTypeList[index].utrno}")
                                                   : buildTableRow(context, "यूटीआर क्र.", "${cont.paymentTypeList[index].utrno}"),
                                               buildSpaceTableRow(),
                                             ],
-                                          )
+                                          ),
+                                          GestureDetector(
+                                              onTap: (){
+                                                cont.navigateToUploadedPhotos(int.parse(cont.paymentTypeList[index].billID!),
+                                                    cont.paymentTypeList[index].workOrderNo!,AppRoutes.paymentLongDataScreen);
+                                              },
+                                              child: Table(
+                                                columnWidths: const {
+                                                  0: FlexColumnWidth(5),
+                                                  1: FlexColumnWidth(1),
+                                                  2: FlexColumnWidth(4),
+                                                },
+                                                children: [
+                                                  TableRow(
+                                                      children: [
+                                                        cont.language == "English"
+                                                            ? buildTextBoldWidget("Previous Photos", Colors.black, context, 15.0)
+                                                            : buildTextBoldWidget("मागील फोटो", Colors.black, context, 15.0),
+                                                        buildTextBoldWidget(":", Colors.black, context, 15.0),
+                                                        Transform(
+                                                          transform: Matrix4.translationValues(-60.0, 0.0, 0.0),
+                                                          child:const Icon(Icons.photo),
+                                                        ),
+                                                      ]
+                                                  )
+                                                ],
+                                              )
+                                          ),
+                                          Align(
+                                            alignment:Alignment.topRight,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                foregroundColor: Colors.green, backgroundColor: Colors.yellow.shade400,
+                                                minimumSize: Size(MediaQuery.of(context).size.width, 25),
+                                                shape: const RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                cont.goToUploadPhotoScreen(int.parse(cont.paymentTypeList[index].billID!),AppRoutes.paymentLongDataScreen);
+                                              },
+                                              child:
+                                              cont.language == "English"
+                                                  ? const Text(
+                                                'Upload Photo',
+                                                style: TextStyle(color: Colors.black, fontSize: 15),
+                                              )
+                                                  : const Text(
+                                                'फोटो अपलोड करा',
+                                                style: TextStyle(color: Colors.black, fontSize: 15),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       )
                                   ),
@@ -249,6 +300,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                 ),
               ],
             )),
+      )
       );
     });
   }

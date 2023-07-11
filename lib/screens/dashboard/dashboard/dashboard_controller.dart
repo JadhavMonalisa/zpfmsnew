@@ -109,6 +109,7 @@ class DashboardController extends GetxController {
     isEnterManuallySelected = false; enterManuallyController.clear();
     isScanQrSelected = false;
     Get.toNamed(AppRoutes.dashboardScreen);
+    //Get.toNamed(backPressScreen);
     update();
   }
 
@@ -262,6 +263,15 @@ class DashboardController extends GetxController {
     update();
   }
 
+  navigateToBillDataFromEnterManually(){
+    isLoading=true;
+    // workIdFromWorkOrder = workId;
+    // workOrderNumberToShow = workNo;
+    Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
+    callBillDetailsFromEnterManually();
+    update();
+  }
+
   navigateToBillDataFromPhotoUpload(int workId,String workNo){
     isLoading=true;
     workIdFromWorkOrder = workId;
@@ -278,6 +288,29 @@ class DashboardController extends GetxController {
 
       if (response.statusCode==200) {
         billDataFromWorkOrderList.addAll(response.billDataFromWorkOrderDetails!);
+        isLoading = false;
+        update();
+      } else {
+        isLoading = false;
+        update();
+      }
+    } on CustomException catch (e) {
+      isLoading = false;
+      update();
+    } catch (error) {
+      isLoading = false;
+      update();
+    }
+  }
+
+  List<BillDataFromWorkOrderDetails> billListFromEnterManually = [];
+  void callBillDetailsFromEnterManually() async {
+    billListFromEnterManually.clear();
+    try {
+      BillDataFromWorkOrderModel? response = (await repository.getBillListFromEnter(partyId,token));
+
+      if (response.statusCode==200) {
+        billListFromEnterManually.addAll(response.billDataFromWorkOrderDetails!);
         isLoading = false;
         update();
       } else {
@@ -310,9 +343,9 @@ class DashboardController extends GetxController {
     update();
   }
 
-  goToUploadPhotoScreen(int billId){
+  goToUploadPhotoScreen(int billId,String backPressScreen){
     selectedBillIdForUploadPhoto = billId;
-    Get.toNamed(AppRoutes.beforeAfterPhotoUpload);
+    Get.toNamed(AppRoutes.beforeAfterPhotoUpload,arguments: [backPressScreen]);
     getCurrentPosition();
     update();
   }
@@ -620,13 +653,16 @@ class DashboardController extends GetxController {
 
   int billIdSendToUploadPhotoApi = 0;
 
-  navigateToUploadedPhotos(int billId,String workOrderNo){
+  navigateToUploadedPhotos(int billId,String workOrderNo,String backPressScreenName){
     workOrderNumberToShow = workOrderNo;
     //selectedPhotoBillId = billId;
     billIdSendToUploadPhotoApi = billId;
-    Get.toNamed(AppRoutes.uploadedPhotoScreen);
+    callPhotoUploadedDataApi(billIdSendToUploadPhotoApi,"After");
+    print("billIdSendToUploadPhotoApi");
+    print(billIdSendToUploadPhotoApi);
+    Get.toNamed(AppRoutes.uploadedPhotoScreen,arguments: [backPressScreenName]);
     //callPhotoUploadedDataApi(billId);
-    update();
+    //update();
   }
 
   List<String> createDate = [];
@@ -732,7 +768,10 @@ class DashboardController extends GetxController {
           }
         }
 
-
+        print("uploadedPhotoList.length");
+        print(uploadedPhotoList.length);
+        print("imgList.length");
+        print(imgList.length);
         isLoading = false;
         update();
       }
@@ -751,9 +790,12 @@ class DashboardController extends GetxController {
 
   List<TestUploadPhotoResult> testUploadedPhotoResult = [];
 
-  navigateFromPhotoUploadedList(){
+  navigateFromPhotoUploadedList(String backScreenName){
     radioValueOnPhotoList = -1;
-    Get.toNamed(AppRoutes.searchWorkOrderList);
+    //Get.toNamed(AppRoutes.searchWorkOrderList);
+    print("backScreenName");
+    print(backScreenName);
+    Get.toNamed(backScreenName);
     update();
   }
   void testCallPhotoUploadedDataApi(int billId,String mode) async {
@@ -946,6 +988,7 @@ class DashboardController extends GetxController {
     //testCallPhotoUploadedDataApi(billIdSendToUploadPhotoApi,mode);
     uploadedPhotoList.clear();imgList.clear();
     callPhotoUploadedDataApi(billIdSendToUploadPhotoApi,mode);
+    //callPhotoUploadedDataApi(billIdSendToUploadPhotoApi,"After");
     update();
   }
 
@@ -1074,9 +1117,10 @@ class DashboardController extends GetxController {
     }
   }
 
-  navigateToBillFromPhotoUpload(){
+  navigateToBillFromPhotoUpload(String backScreenName){
     imageFile=null;isSelected=false;isLoading=false;
-    Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
+    //Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
+    Get.toNamed(backScreenName);
     update();
   }
 

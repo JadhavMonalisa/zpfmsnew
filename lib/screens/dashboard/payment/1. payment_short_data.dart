@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
+import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 
 import '../dashboard/dashboard_controller.dart';
@@ -18,7 +19,9 @@ class _PaymentShortDataScreenState extends State<PaymentShortDataScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (cont){
-      return Scaffold(
+      return WillPopScope(
+          onWillPop: () async {return await Get.toNamed(AppRoutes.dashboardScreen);},
+      child:Scaffold(
         key: pSKey1,
         drawer: const NavDrawer(),
         appBar: AppBar(
@@ -81,68 +84,68 @@ class _PaymentShortDataScreenState extends State<PaymentShortDataScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                   GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentBilledApi();
-                                      },
-                                       onDoubleTap: (){
-                                         cont.callPaymentBilledApi();
-                                       },
-                                      child:cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Billed Count","${item.billedBillCount}")
-                                      : buildPaymentDetailsWidget(context,"बिल केलेली संख्या","${item.billedBillCount}")
+                                    GestureDetector(
+                                        onTap: (){
+                                          cont.callPaymentBilledApi();
+                                        },
+                                        onDoubleTap: (){
+                                          cont.callPaymentBilledApi();
+                                        },
+                                        child:cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Billed Count","${item.billedBillCount}")
+                                            : buildPaymentDetailsWidget(context,"बिल केलेली संख्या","${item.billedBillCount}")
                                     ),
                                     const SizedBox(height: 10.0,),
 
                                     GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentBilledApi();
-                                      },
+                                        onTap: (){
+                                          cont.callPaymentBilledApi();
+                                        },
                                         onDoubleTap: (){
                                           cont.callPaymentBilledApi();
                                         },
-                                      child: cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Billed Amount","${item.totalBilledAmount}")
-                                      : buildPaymentDetailsWidget(context,"बिल केलेली रक्कम","${item.totalBilledAmount}")),
+                                        child: cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Billed Amount","${item.totalBilledAmount}")
+                                            : buildPaymentDetailsWidget(context,"बिल केलेली रक्कम","${item.totalBilledAmount}")),
                                     const SizedBox(height: 20.0,),
 
                                     GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentPaidApi();
-                                      },
+                                        onTap: (){
+                                          cont.callPaymentPaidApi();
+                                        },
                                         onDoubleTap: (){
                                           cont.callPaymentPaidApi();
                                         },
-                                      child: cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Paid Bill Count","${item.paidBillCount}")
-                                      : buildPaymentDetailsWidget(context,"देय बिल गणना","${item.paidBillCount}")),
+                                        child: cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Paid Bill Count","${item.paidBillCount}")
+                                            : buildPaymentDetailsWidget(context,"देय बिल गणना","${item.paidBillCount}")),
                                     const SizedBox(height: 10.0,),
 
                                     GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentPaidApi();
-                                      },
-                                      child: cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Paid Bill Amount","${item.totalPaidAmount}")
-                                      : buildPaymentDetailsWidget(context,"बिलाची रक्कम भरली","${item.totalPaidAmount}")),
+                                        onTap: (){
+                                          cont.callPaymentPaidApi();
+                                        },
+                                        child: cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Paid Bill Amount","${item.totalPaidAmount}")
+                                            : buildPaymentDetailsWidget(context,"बिलाची रक्कम भरली","${item.totalPaidAmount}")),
                                     const SizedBox(height: 20.0,),
 
                                     GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentIntransitApi();
-                                      },
-                                      child: cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Intransit Count","${item.pendingBillCount}")
-                                      : buildPaymentDetailsWidget(context,"अंतर्गमन गणना","${item.pendingBillCount}")),
+                                        onTap: (){
+                                          cont.callPaymentIntransitApi();
+                                        },
+                                        child: cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Intransit Count","${item.pendingBillCount}")
+                                            : buildPaymentDetailsWidget(context,"अंतर्गमन गणना","${item.pendingBillCount}")),
                                     const SizedBox(height: 10.0,),
 
                                     GestureDetector(
-                                      onTap: (){
-                                        cont.callPaymentIntransitApi();
-                                      },
-                                      child: cont.language == "English"
-                                      ? buildPaymentDetailsWidget(context,"Intransit Amount","${item.totalPendingAmount}")
-                                      : buildPaymentDetailsWidget(context,"अंतर्गमन रक्कम","${item.totalPendingAmount}")),
+                                        onTap: (){
+                                          cont.callPaymentIntransitApi();
+                                        },
+                                        child: cont.language == "English"
+                                            ? buildPaymentDetailsWidget(context,"Intransit Amount","${item.totalPendingAmount}")
+                                            : buildPaymentDetailsWidget(context,"अंतर्गमन रक्कम","${item.totalPendingAmount}")),
                                   ],
                                 ),
                               );
@@ -152,6 +155,7 @@ class _PaymentShortDataScreenState extends State<PaymentShortDataScreen> {
                 ),
               ],
             )),
+      )
       );
     });
   }

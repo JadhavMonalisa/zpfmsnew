@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
+import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -164,7 +165,7 @@ class _SearchWorkOrderListState extends State<SearchWorkOrderList> {
                                           ),
                                           GestureDetector(
                                               onTap: (){
-                                                cont.navigateToUploadedPhotos(item.billID!,item.workOrderNo!);
+                                                cont.navigateToUploadedPhotos(item.billID!,item.workOrderNo!,AppRoutes.searchWorkOrderList);
                                                 },
                                               child: Table(
                                                 columnWidths: const {

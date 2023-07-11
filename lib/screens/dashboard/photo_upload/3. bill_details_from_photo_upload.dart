@@ -16,6 +16,7 @@ class BillDetailsFromPhotoUploadScreen extends StatefulWidget {
 }
 
 class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoUploadScreen> {
+
   GlobalKey<ScaffoldState> billDetailsFromPUSKey2 = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context,index){
                                 final item = cont.billDataFromWorkOrderList[index];
-                                cont.demandNoToShow = item.demandNo!;
+                                cont.demandNoToShow = cont.billDataFromWorkOrderList.isEmpty?"":item.demandNo!;
                                 return GestureDetector(
                                   onTap: (){
                                     //cont.navigateToTrackBillFromWorkOrder(int.parse(item.billID!));
@@ -109,7 +110,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                               },
                                               children: [
                                                 cont.language == "English"
-                                                    ? buildTableRow(context, "Sr. No", "${index+1}")
+                                                    ? buildTableRow(context, "Sr. No.", "${index+1}")
                                                     : buildTableRow(context, "अनु. क्र.", "${index+1}"),
                                                 buildSpaceTableRow(),
 
@@ -129,11 +130,11 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 cont.language == "English"
                                                 ? TableRow(
                                                     children: [
-                                                      buildTextBoldWidget("Bill Number", Colors.black, context, 15.0,align: TextAlign.left),
+                                                      buildTextBoldWidget("Demand Number", Colors.black, context, 15.0,align: TextAlign.left),
                                                       buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                       RichText(
                                                         text: TextSpan(
-                                                          text: "${item.billID.toString()}  ",
+                                                          text: "${item.demandNo.toString()}  ",
                                                           style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                           children: <TextSpan>[
                                                             TextSpan(
@@ -143,7 +144,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                               recognizer: TapGestureRecognizer()..onTap = () {
                                                                 setState(() {
                                                                   cont.isLoading=true;
-                                                                  Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                                  Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                                   ScaffoldMessenger.of(context).showSnackBar(
                                                                     const SnackBar(content: Text("Copied!")),
                                                                   );
@@ -159,11 +160,11 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 )
                                                 : TableRow(
                                                     children: [
-                                                      buildTextBoldWidget("बिल क्र.", Colors.black, context, 15.0,align: TextAlign.left),
+                                                      buildTextBoldWidget("मागणी क्र.", Colors.black, context, 15.0,align: TextAlign.left),
                                                       buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                       RichText(
                                                         text: TextSpan(
-                                                          text: "${item.billID.toString()}  ",
+                                                          text: "${item.demandNo.toString()}  ",
                                                           style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                           children: <TextSpan>[
                                                             TextSpan(
@@ -173,7 +174,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                               recognizer: TapGestureRecognizer()..onTap = () {
                                                                 setState(() {
                                                                   cont.isLoading=true;
-                                                                  Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                                  Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                                   ScaffoldMessenger.of(context).showSnackBar(
                                                                     const SnackBar(content: Text("कॉपी केले!")),
                                                                   );
@@ -218,7 +219,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 buildSpaceTableRow(),
                                                 buildTableRow(context, "Payment Status", "${item.paymentStatus}"),
                                                 buildSpaceTableRow(),
-                                                buildTableRow(context, "UTR No", "${item.utrno}"),
+                                                buildTableRow(context, "UTR No.", "${item.utrno}"),
                                                 buildSpaceTableRow(),
                                               ],
                                             )
@@ -253,66 +254,58 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 buildSpaceTableRow(),
                                               ],
                                             ),
-                                            Row(
-                                                children:[
-                                                  Flexible(
-                                                    child: Align(
-                                                      alignment:Alignment.topRight,
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton.styleFrom(
-                                                          foregroundColor: Colors.green, backgroundColor: Colors.yellow.shade400,
-                                                          minimumSize: Size(MediaQuery.of(context).size.width, 25),
-                                                          shape: const RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            GestureDetector(
+                                                onTap: (){
+                                                  cont.navigateToUploadedPhotos(int.parse(cont.paymentTypeList[index].billID!),
+                                                      cont.paymentTypeList[index].workOrderNo!,AppRoutes.billDetailsFromPhotoUpload);
+                                                },
+                                                child: Table(
+                                                  columnWidths: const {
+                                                    0: FlexColumnWidth(5),
+                                                    1: FlexColumnWidth(1),
+                                                    2: FlexColumnWidth(4),
+                                                  },
+                                                  children: [
+                                                    TableRow(
+                                                        children: [
+                                                          cont.language == "English"
+                                                              ? buildTextBoldWidget("Previous Photos", Colors.black, context, 15.0)
+                                                              : buildTextBoldWidget("मागील फोटो", Colors.black, context, 15.0),
+                                                          buildTextBoldWidget(":", Colors.black, context, 15.0),
+                                                          Transform(
+                                                            transform: Matrix4.translationValues(-60.0, 0.0, 0.0),
+                                                            child:const Icon(Icons.photo),
                                                           ),
-                                                        ),
-                                                        onPressed: () {
-                                                         cont.goToUploadPhotoScreen(int.parse(item.billID!));
-                                                        },
-                                                        child:
-                                                        cont.language == "English"
-                                                        ? const Text(
-                                                          'Upload Photo',
-                                                          style: TextStyle(color: Colors.black, fontSize: 15),
-                                                        )
-                                                        : const Text(
-                                                          'फोटो अपलोड करा',
-                                                          style: TextStyle(color: Colors.black, fontSize: 15),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                        ]
+                                                    )
+                                                  ],
+                                                )
+                                            ),
+                                            Align(
+                                              alignment:Alignment.topRight,
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  foregroundColor: Colors.green, backgroundColor: Colors.yellow.shade400,
+                                                  minimumSize: Size(MediaQuery.of(context).size.width, 25),
+                                                  shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(7)),
                                                   ),
-                                                  //const SizedBox(width: 10.0,),
-                                                  // Flexible(
-                                                  //   child: Align(
-                                                  //     alignment:Alignment.topRight,
-                                                  //     child: ElevatedButton(
-                                                  //       style: ElevatedButton.styleFrom(
-                                                  //         onPrimary: Colors.green,
-                                                  //         primary: Colors.yellow.shade400,
-                                                  //         minimumSize: Size(MediaQuery.of(context).size.width, 25),
-                                                  //         shape: const RoundedRectangleBorder(
-                                                  //           borderRadius: BorderRadius.all(Radius.circular(7)),
-                                                  //         ),
-                                                  //       ),
-                                                  //       onPressed: () {
-                                                  //         cont.navigateToTrackBillFromWorkOrder(int.parse(item.billID!));
-                                                  //       },
-                                                  //       child:
-                                                  //       cont.language == "English"
-                                                  //       ? const Text(
-                                                  //         'Track Bill',
-                                                  //         style: TextStyle(color: Colors.black, fontSize: 15),
-                                                  //       )
-                                                  //           : const Text(
-                                                  //         'ट्रॅक बिल',
-                                                  //         style: TextStyle(color: Colors.black, fontSize: 15),
-                                                  //       ),
-                                                  //     ),
-                                                  //   ),
-                                                  // )
-                                                ]
-                                            )
+                                                ),
+                                                onPressed: () {
+                                                  cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.billDetailsFromPhotoUpload);
+                                                },
+                                                child:
+                                                cont.language == "English"
+                                                    ? const Text(
+                                                  'Upload Photo',
+                                                  style: TextStyle(color: Colors.black, fontSize: 15),
+                                                )
+                                                    : const Text(
+                                                  'फोटो अपलोड करा',
+                                                  style: TextStyle(color: Colors.black, fontSize: 15),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

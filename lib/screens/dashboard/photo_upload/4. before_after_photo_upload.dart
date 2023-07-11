@@ -18,10 +18,12 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
 
   @override
   Widget build(BuildContext context) {
-
+    var backScreenName = Get.arguments[0];
+    print("backScreenName");
+    print(backScreenName);
     return GetBuilder<DashboardController>(builder: (cont){
     return WillPopScope(
-        onWillPop: () async {  return await cont.navigateToBillFromPhotoUpload();},
+        onWillPop: () async {return await cont.navigateToBillFromPhotoUpload(backScreenName);},
       child:
 
       Scaffold(

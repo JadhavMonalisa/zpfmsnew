@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
+import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_colors.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -17,8 +18,9 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (cont)
     {
+      var backScreenName = Get.arguments[0];
       return WillPopScope(
-        onWillPop: () async {  return await cont.navigateFromPhotoUploadedList();},
+        onWillPop: () async {return await cont.navigateFromPhotoUploadedList(backScreenName);},
         child: Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -71,7 +73,7 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                               style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: cont.workOrderNumberToShow.toString(),
+                                    text: cont.workOrderNumberToShow.isEmpty?"":cont.workOrderNumberToShow.toString(),
                                     style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 16.0)),
                               ],
                             ),
@@ -161,6 +163,7 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                               itemCount: cont.imgList.length,
                                               itemBuilder: (context,imgIndex){
                                                 return
+
                                                   cont.uploadedPhotoList[index].createdDate == cont.imgList[imgIndex].createdDate ?
                                                   Padding(
                                                       padding: const EdgeInsets.all(5.0),
@@ -191,6 +194,11 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                                       },)
                                                                 ),
                                                               ),
+                                                              // Container(
+                                                              //         height: 100.0,
+                                                              //         width: 100.0,
+                                                              //         decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                              // ),
                                                               const SizedBox(width: 10.0),
                                                               Flexible(
                                                                 child: Table(
@@ -199,9 +207,9 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                                     1: FlexColumnWidth(5),
                                                                   },
                                                                   children: [
-                                                                    buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
-                                                                    buildTableRowForPhoto(context,"Latitude : ","${cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
-                                                                    buildTableRowForPhoto(context,"Longitude : ","${cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
+                                                                    //buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
+                                                                    buildTableRowForPhoto(context,"Latitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
+                                                                    buildTableRowForPhoto(context,"Longitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
                                                                     // buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
                                                                   ],
                                                                 ),
@@ -212,7 +220,7 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                           const SizedBox(height: 5.0,),
                                                           Align(
                                                             alignment: Alignment.topLeft,
-                                                            child:buildRichTextWidget("Address : ", "${cont.imgList[imgIndex].location}",
+                                                            child:buildRichTextWidget("Address : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].location}",
                                                               title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
                                                           ),
                                                           const Divider(thickness: 2.0,),

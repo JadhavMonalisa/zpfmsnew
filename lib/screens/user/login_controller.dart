@@ -234,6 +234,8 @@ class LoginController extends GetxController {
         LoginResponse? response = (await repository.getMobileNoVerifyForRegistration(
             mobileNoController.text));
 
+        print("response.statusCode");
+        print(response.statusCode);
         if (response.statusCode==200) {
           isLoading = false;
           Utils.showErrorSnackBar(response.result);

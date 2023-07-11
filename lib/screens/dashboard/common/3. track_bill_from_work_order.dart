@@ -116,7 +116,7 @@ class _TrackBillFromWorkOrderState extends State<TrackBillFromWorkOrder> {
                                               cont.language == "English"
                                               ? TableRow(
                                                   children: [
-                                                    buildTextBoldWidget("Bill No", Colors.black, context, 15.0,align: TextAlign.left),
+                                                    buildTextBoldWidget("Bill No.", Colors.black, context, 15.0,align: TextAlign.left),
                                                     buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                     RichText(
                                                       text: TextSpan(
@@ -192,7 +192,7 @@ class _TrackBillFromWorkOrderState extends State<TrackBillFromWorkOrder> {
                                               buildSpaceTableRow(),
                                               buildTableRow(context, "District", "${item.districtName}"),
                                               buildSpaceTableRow(),
-                                              buildTableRow(context, "UTR No", "${item.utrno}"),
+                                              buildTableRow(context, "UTR No.", "${item.utrno}"),
                                               buildSpaceTableRow(),
                                             ],
                                           )

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
+import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -85,6 +86,7 @@ class _TrackBillListState extends State<TrackBillList> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context,index){
                             final item = cont.trackBillDetailsList[index];
+                            cont.demandNoToShow = cont.trackBillDetailsList.isEmpty?"":item.demandNo!;
                             return Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Container(
@@ -105,7 +107,7 @@ class _TrackBillListState extends State<TrackBillList> {
                                         },
                                         children: [
                                           cont.language == "English"
-                                              ? buildTableRow(context, "Sr. No", "${index+1}")
+                                              ? buildTableRow(context, "Sr. No.", "${index+1}")
                                               : buildTableRow(context, "अनु. क्र.", "${index+1}"),
                                           buildSpaceTableRow(),
 
@@ -125,11 +127,11 @@ class _TrackBillListState extends State<TrackBillList> {
                                           cont.language == "English"
                                               ? TableRow(
                                               children: [
-                                                buildTextBoldWidget("Bill Number", Colors.black, context, 15.0,align: TextAlign.left),
+                                                buildTextBoldWidget("Demand Number", Colors.black, context, 15.0,align: TextAlign.left),
                                                 buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                 RichText(
                                                   text: TextSpan(
-                                                    text: "${item.billID.toString()}  ",
+                                                    text: "${item.demandNo.toString()}  ",
                                                     style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                     children: <TextSpan>[
                                                       TextSpan(
@@ -139,7 +141,7 @@ class _TrackBillListState extends State<TrackBillList> {
                                                         recognizer: TapGestureRecognizer()..onTap = () {
                                                           setState(() {
                                                             cont.isLoading=true;
-                                                            Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                            Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                               const SnackBar(content: Text("Copied!")),
                                                             );
@@ -155,11 +157,11 @@ class _TrackBillListState extends State<TrackBillList> {
                                           )
                                               : TableRow(
                                               children: [
-                                                buildTextBoldWidget("बिल क्र.", Colors.black, context, 15.0,align: TextAlign.left),
+                                                buildTextBoldWidget("मागणी क्र.", Colors.black, context, 15.0,align: TextAlign.left),
                                                 buildTextBoldWidget(":", Colors.black, context, 15.0),
                                                 RichText(
                                                   text: TextSpan(
-                                                    text: "${item.billID.toString()}  ",
+                                                    text: "${item.demandNo.toString()}  ",
                                                     style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 17.5),
                                                     children: <TextSpan>[
                                                       TextSpan(
@@ -169,7 +171,7 @@ class _TrackBillListState extends State<TrackBillList> {
                                                         recognizer: TapGestureRecognizer()..onTap = () {
                                                           setState(() {
                                                             cont.isLoading=true;
-                                                            Clipboard.setData(ClipboardData(text:item.billID.toString()));
+                                                            Clipboard.setData(ClipboardData(text:item.demandNo.toString()));
                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                               const SnackBar(content: Text("कॉपी केले!")),
                                                             );
@@ -213,7 +215,7 @@ class _TrackBillListState extends State<TrackBillList> {
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "Payment Status", "${item.paymentStatus}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "UTR No", "${item.utrno}"),
+                                          buildTableRow(context, "UTR No.", "${item.utrno}"),
                                           buildSpaceTableRow(),
                                         ],
                                       )
@@ -247,6 +249,58 @@ class _TrackBillListState extends State<TrackBillList> {
                                           buildTableRow(context, "यूटीआर क्र.", "${item.utrno}"),
                                           buildSpaceTableRow(),
                                         ],
+                                      ),
+                                      GestureDetector(
+                                          onTap: (){
+                                            cont.navigateToUploadedPhotos(int.parse(item.billID!),
+                                                item.workOrderNo!,AppRoutes.trackBillList);
+                                          },
+                                          child: Table(
+                                            columnWidths: const {
+                                              0: FlexColumnWidth(5),
+                                              1: FlexColumnWidth(1),
+                                              2: FlexColumnWidth(4),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                  children: [
+                                                    cont.language == "English"
+                                                        ? buildTextBoldWidget("Previous Photos", Colors.black, context, 15.0)
+                                                        : buildTextBoldWidget("मागील फोटो", Colors.black, context, 15.0),
+                                                    buildTextBoldWidget(":", Colors.black, context, 15.0),
+                                                    Transform(
+                                                      transform: Matrix4.translationValues(-60.0, 0.0, 0.0),
+                                                      child:const Icon(Icons.photo),
+                                                    ),
+                                                  ]
+                                              )
+                                            ],
+                                          )
+                                      ),
+                                      Align(
+                                        alignment:Alignment.topRight,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.green, backgroundColor: Colors.yellow.shade400,
+                                            minimumSize: Size(MediaQuery.of(context).size.width, 25),
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.trackBillList);
+                                          },
+                                          child:
+                                          cont.language == "English"
+                                              ? const Text(
+                                            'Upload Photo',
+                                            style: TextStyle(color: Colors.black, fontSize: 15),
+                                          )
+                                              : const Text(
+                                            'फोटो अपलोड करा',
+                                            style: TextStyle(color: Colors.black, fontSize: 15),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

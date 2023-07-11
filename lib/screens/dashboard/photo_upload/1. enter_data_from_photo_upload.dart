@@ -17,8 +17,9 @@ class _EnterDataScreenState extends State<EnterDataScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (cont){
+
       return WillPopScope(
-          onWillPop: () async { return await cont.navigateToDashboardFromPhotoUpload();},
+          onWillPop: () async {return await cont.navigateToDashboardFromPhotoUpload();},
       child:
         Scaffold(
         key: puSKey1,
@@ -171,6 +172,7 @@ class _EnterDataScreenState extends State<EnterDataScreen> {
                               }
                               else{
                                 cont.callSearchWorkOrderDataApi(int.parse(cont.enterManuallyController.text));
+                                //cont.navigateToBillDataFromEnterManually();
                               }
                             },
                             child: const Text(

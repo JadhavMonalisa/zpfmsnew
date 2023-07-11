@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
+import 'package:zpfmsnew/theme/app_colors.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
 
 class Profile extends StatefulWidget {
@@ -76,28 +77,29 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      controller: cont.firstNameController,
-                      keyboardType: TextInputType.text,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].partyName,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter First Name';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   controller: cont.firstNameController,
+                    //   keyboardType: TextInputType.text,
+                    //   enabled: false,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border: InputBorder.none,
+                    //     labelText: cont.contractorList[0].partyName,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter First Name';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:buildTextRegularWidget(cont.contractorList[0].partyName!, blackColor, context, 14.0)
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,top: 5.0),
@@ -105,28 +107,29 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      enabled: false,
-                      controller: cont.mobileNoController,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].mobile,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Mobile No';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   keyboardType: TextInputType.number,
+                    //   enabled: false,
+                    //   controller: cont.mobileNoController,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border: InputBorder.none,
+                    //     labelText: cont.contractorList[0].mobile,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter Mobile No';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:buildTextRegularWidget(cont.contractorList[0].mobile!, blackColor, context, 14.0)
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,top: 5.0),
@@ -134,27 +137,28 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      controller: cont.mobileNoController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].bankName,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Mobile No';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   controller: cont.mobileNoController,
+                    //   enabled: false,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border: InputBorder.none,
+                    //     labelText: cont.contractorList[0].bankName,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter Mobile No';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:  buildTextRegularWidget(cont.contractorList[0].bankName!, blackColor, context, 14.0)
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,top: 5.0),
@@ -162,27 +166,28 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      controller: cont.mobileNoController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].micrCode,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Mobile No';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   controller: cont.mobileNoController,
+                    //   enabled: false,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border:InputBorder.none,
+                    //     labelText: cont.contractorList[0].micrCode,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter Mobile No';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:buildTextRegularWidget(cont.contractorList[0].micrCode!, blackColor, context, 14.0)
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,top: 5.0),
@@ -190,27 +195,28 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      controller: cont.mobileNoController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].ifsCCode,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Mobile No';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   controller: cont.mobileNoController,
+                    //   enabled: false,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border: InputBorder.none,
+                    //     labelText: cont.contractorList[0].ifsCCode,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter Mobile No';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:buildTextRegularWidget(cont.contractorList[0].ifsCCode!, blackColor, context, 14.0)
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,top: 5.0),
@@ -218,60 +224,61 @@ class _ProfileState extends State<Profile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left:16.0,bottom: 16.0,top: 10.0),
-                    child: TextFormField(
-                      controller: cont.mobileNoController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        border: const OutlineInputBorder(),
-                        labelText: cont.contractorList[0].bankAccountNumber,
-                        labelStyle: const TextStyle(color: Colors.black),
-                        disabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(width: 1,color: Colors.black),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Mobile No';
-                        }
-                        return null;
-                      },
-                    ),
+                    // child: TextFormField(
+                    //   controller: cont.mobileNoController,
+                    //   enabled: false,
+                    //   decoration: InputDecoration(
+                    //     isDense: true,
+                    //     filled: true,
+                    //     border: InputBorder.none,
+                    //     labelText: cont.contractorList[0].bankAccountNumber,
+                    //     labelStyle: const TextStyle(color: Colors.black),
+                    //     // disabledBorder: const OutlineInputBorder(
+                    //     //   borderRadius: BorderRadius.all(Radius.circular(4)),
+                    //     //   borderSide: BorderSide(width: 1,color: Colors.black),
+                    //     // ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter Mobile No';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    child:buildTextRegularWidget(cont.contractorList[0].bankAccountNumber!, blackColor, context, 14.0)
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () {
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                      ),
-                      child: SizedBox(
-                        width: 150,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Update Profile',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.orange,
+                  //     ),
+                  //     child: SizedBox(
+                  //       width: 150,
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: const [
+                  //           Icon(
+                  //             Icons.cloud_upload_outlined,
+                  //             color: Colors.white,
+                  //           ),
+                  //           SizedBox(
+                  //             width: 5,
+                  //           ),
+                  //           Text(
+                  //             'Update Profile',
+                  //             style: TextStyle(color: Colors.white),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

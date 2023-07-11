@@ -156,6 +156,23 @@ class ApiRepository {
     Map<String, dynamic> jsonBody = json.decode(responsebody);
     return PaymentLongListModel.fromJson(jsonBody);
   }
+  Future<BillDataFromWorkOrderModel> getBillListFromEnter(int partyId,String token) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(ApiEndpoint.billDetailsByPartyIdListUrl),
+    )..headers.addAll({
+      "Authorization": 'Bearer $token',
+      HttpHeaders.contentTypeHeader: "application/json",
+    });
+
+    var params = {"PartyID": partyId,};
+    request.body = jsonEncode(params);
+    http.StreamedResponse response = await request.send();
+    final responsebody = await response.stream.bytesToString();
+
+    Map<String, dynamic> jsonBody = json.decode(responsebody);
+    return BillDataFromWorkOrderModel.fromJson(jsonBody);
+  }
   Future<PaymentDetailsModel> getBilledList(int partyId,String token) async {
     var request = http.Request(
       'GET',
@@ -311,6 +328,8 @@ class ApiRepository {
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();
 
+    print("responsebody");
+    print(responsebody);
     Map<String, dynamic> jsonBody = json.decode(responsebody);
     return LoginResponse.fromJson(jsonBody);
   }
