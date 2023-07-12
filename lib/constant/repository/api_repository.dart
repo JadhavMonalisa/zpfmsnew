@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_model.dart';
 import 'package:zpfmsnew/screens/dashboard/payment/payment_model.dart';
+import 'package:zpfmsnew/screens/dashboard/photo_upload/GetViewPhotoModel.dart';
 import 'package:zpfmsnew/screens/dashboard/photo_upload/photo_upload_model.dart';
 import 'package:zpfmsnew/screens/dashboard/track_bill/track_bill_model.dart';
 import 'package:zpfmsnew/screens/dashboard/work_order/work_order_model.dart';
@@ -100,6 +101,22 @@ class ApiRepository {
     Map<String, dynamic> jsonBody = json.decode(responsebody);
     return BillDataFromWorkOrderModel.fromJson(jsonBody);
   }
+  Future<BillDataFromWorkOrderModel> getBillDataFromDemandNo(String demandNo,String token) async {
+    var request = http.Request(
+      'GET', Uri.parse(ApiEndpoint.billDataFromDemandNoUrl),
+    )..headers.addAll({
+      "Authorization": 'Bearer $token',
+      HttpHeaders.contentTypeHeader: "application/json",
+    });
+
+    var params = {"DemandNumber": demandNo};
+    request.body = jsonEncode(params);
+    http.StreamedResponse response = await request.send();
+    final responsebody = await response.stream.bytesToString();
+
+    Map<String, dynamic> jsonBody = json.decode(responsebody);
+    return BillDataFromWorkOrderModel.fromJson(jsonBody);
+  }
 
   Future<TrackBillFromWorkOrderModel> getTrackBillFromWorkOrderList(int billId,String token) async {
     var request = http.Request(
@@ -120,7 +137,7 @@ class ApiRepository {
     return TrackBillFromWorkOrderModel.fromJson(jsonBody);
   }
 
-  Future<BillDetailsFromTrackBillModel> getBillDetailsFromTrackBill(int billId,String token) async {
+  Future<BillDetailsFromTrackBillModel> getBillDetailsFromTrackBill(String billId,String token) async {
     var request = http.Request(
       'GET',
       Uri.parse(ApiEndpoint.billDetailsByBillIdListUrl),
@@ -132,6 +149,7 @@ class ApiRepository {
 
     var params = {"BillID": billId,};
     request.body = jsonEncode(params);
+
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();
 
@@ -184,9 +202,6 @@ class ApiRepository {
 
     var params = {"PartyID": partyId,};
     request.body = jsonEncode(params);
-    print("params");
-    print(params);
-    print(token);
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();
 
@@ -269,7 +284,6 @@ class ApiRepository {
     var multipartFileSign =  http.MultipartFile('Image', stream,length, filename: basename(File(image).path));
     request.files.add(multipartFileSign);
     var response = await request.send();
-
     return response.stream.transform(utf8.decoder);
   }
 
@@ -282,7 +296,7 @@ class ApiRepository {
       HttpHeaders.contentTypeHeader: "application/json",
     });
 
-    var params = {"BillID": billId,"Mode":mode};
+    var params = {"BillID": billId};
     request.body = jsonEncode(params);
 
     http.StreamedResponse response = await request.send();
@@ -290,6 +304,24 @@ class ApiRepository {
 
     Map<String, dynamic> jsonBody = json.decode(responsebody);
     return TestUploadPhotoModel.fromJson(jsonBody);
+  }
+  Future<TestUploadedPhotoList> testGetPhotoUploadedList(int billId,String token) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(ApiEndpoint.uploadedPhotoListUrl),
+    )..headers.addAll({
+      "Authorization": 'Bearer $token',
+      HttpHeaders.contentTypeHeader: "application/json",
+    });
+
+    var params = {"BillID": billId};
+    request.body = jsonEncode(params);
+
+    http.StreamedResponse response = await request.send();
+    final responsebody = await response.stream.bytesToString();
+
+    Map<String, dynamic> jsonBody = json.decode(responsebody);
+    return TestUploadedPhotoList.fromJson(jsonBody);
   }
 
   Future<TestViewPhotoModel> getPhotoUploadedView(int photoId,String token) async {
@@ -323,13 +355,11 @@ class ApiRepository {
       HttpHeaders.contentTypeHeader: "application/json",
     });
 
-    var params = {"MobileNo": mobNo,};
+    var params = {"Mobile": mobNo,};
     request.body = jsonEncode(params);
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();
 
-    print("responsebody");
-    print(responsebody);
     Map<String, dynamic> jsonBody = json.decode(responsebody);
     return LoginResponse.fromJson(jsonBody);
   }

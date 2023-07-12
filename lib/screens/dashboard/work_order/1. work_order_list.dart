@@ -127,7 +127,9 @@ class _WorkOrderListScreenState extends State<WorkOrderListScreen> {
                                                 : buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
                                             buildSpaceTableRow(),
                                           ],
-                                        )
+                                        ),
+                                        // buildRichTextWidget("Work Order Name         :", "       ${item.workName}",
+                                        //     title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900)
                                       ],
                                     ),
 

@@ -71,14 +71,14 @@ class _TrackBillListState extends State<TrackBillList> {
                   cont.trackBillDetailsList.isEmpty ? buildNoDataFound(context) :
                   Column(
                     children: [
-                      Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: cont.language == "English"
-                            ? buildRichTextWidget("Work Order Number: ", cont.trackBillDetailsList.isEmpty?"":cont.trackBillDetailsList[0].workOrderNo!)
-                            : buildRichTextWidget("वर्क ऑर्डर क्र.: ",cont.trackBillDetailsList.isEmpty?"": cont.trackBillDetailsList[0].workOrderNo!)
-                          )),
+                      // Align(
+                      //     alignment: Alignment.center,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.only(right: 5.0),
+                      //       child: cont.language == "English"
+                      //       ? buildRichTextWidget("Work Order Number: ", cont.trackBillDetailsList.isEmpty?"":cont.trackBillDetailsList[0].workOrderNo!)
+                      //       : buildRichTextWidget("वर्क ऑर्डर क्र.: ",cont.trackBillDetailsList.isEmpty?"": cont.trackBillDetailsList[0].workOrderNo!)
+                      //     )),
                       const SizedBox(height: 10,),
                       ListView.builder(
                           shrinkWrap: true,
@@ -205,12 +205,12 @@ class _TrackBillListState extends State<TrackBillList> {
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "Cashbook Name", "${item.cashBookNameMarathi}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "Work Order Number", "${item.workOrderNo}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "Work Order Name", "${item.workName}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "Work Order Name", "${item.workName}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "Approval Status", "${item.approvalStatus}"),
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "Payment Status", "${item.paymentStatus}"),
@@ -236,12 +236,12 @@ class _TrackBillListState extends State<TrackBillList> {
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "कॅशबुकचे नाव", "${item.cashBookNameMarathi}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "वर्क ऑर्डर क्र.", "${item.workOrderNo}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "मंजुरीची स्थिती", "${item.approvalStatus}"),
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "पैसे भरल्याची स्थिती", "${item.paymentStatus}"),
@@ -250,10 +250,17 @@ class _TrackBillListState extends State<TrackBillList> {
                                           buildSpaceTableRow(),
                                         ],
                                       ),
+                                      buildRichTextWidget(cont.language=="English"?"Head Name\n":"प्रमुखाचे नाव",
+                                          "${item.headNameMarathi}",
+                                          title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
+
+                                      buildRichTextWidget(cont.language=="English"?"Work Order Name\n":"वर्क ऑर्डरचे नाव",
+                                          "${item.workName}",
+                                          title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
                                       GestureDetector(
                                           onTap: (){
                                             cont.navigateToUploadedPhotos(int.parse(item.billID!),
-                                                item.workOrderNo!,AppRoutes.trackBillList);
+                                                item.workOrderNo!,AppRoutes.trackBillList,item.demandNo!);
                                           },
                                           child: Table(
                                             columnWidths: const {
@@ -288,7 +295,7 @@ class _TrackBillListState extends State<TrackBillList> {
                                             ),
                                           ),
                                           onPressed: () {
-                                            cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.trackBillList);
+                                            cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.trackBillList,item.demandNo!);
                                           },
                                           child:
                                           cont.language == "English"

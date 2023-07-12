@@ -165,7 +165,8 @@ class _SearchWorkOrderListState extends State<SearchWorkOrderList> {
                                           ),
                                           GestureDetector(
                                               onTap: (){
-                                                cont.navigateToUploadedPhotos(item.billID!,item.workOrderNo!,AppRoutes.searchWorkOrderList);
+                                                cont.navigateToUploadedPhotos(item.billID!,item.workOrderNo!,
+                                                    AppRoutes.searchWorkOrderList,"");
                                                 },
                                               child: Table(
                                                 columnWidths: const {

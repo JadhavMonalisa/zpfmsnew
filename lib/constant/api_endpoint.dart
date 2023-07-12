@@ -26,5 +26,6 @@ class ApiEndpoint {
   static const String setUploadedPhotoUrl = "https://api.demofms.com/api/UploadedPhoto/SetUploadedPhotoDetails";
   static const String uploadedPhotoListUrl = "https://api.demofms.com/api/UploadedPhoto/GetUploadedPhoto";
   static const String uploadedPhotoViewUrl = "https://api.demofms.com/api/UploadedPhoto/GetUploadedImages";
+  static const String billDataFromDemandNoUrl = "https://api.demofms.com/api/BillDetails/GetBillDetailsbyBillID";
 
 }

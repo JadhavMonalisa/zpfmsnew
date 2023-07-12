@@ -234,15 +234,18 @@ class LoginController extends GetxController {
         LoginResponse? response = (await repository.getMobileNoVerifyForRegistration(
             mobileNoController.text));
 
-        print("response.statusCode");
-        print(response.statusCode);
         if (response.statusCode==200) {
           isLoading = false;
           Utils.showErrorSnackBar(response.result);
           startTimer();
           Get.toNamed(AppRoutes.otpScreen,arguments: ["forRegistration"]);
           update();
-        } else {
+        }
+        else if(response.statusCode==404){
+          isLoading = false;
+          Utils.showErrorSnackBar(response.result); update();
+        }
+        else {
           isLoading = false;
           Utils.showErrorSnackBar("Something went wrong. Please try again later!"); update();
         }

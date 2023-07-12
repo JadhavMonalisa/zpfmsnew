@@ -68,12 +68,12 @@ class _MobileNoScreenState extends State<MobileNoScreen> {
                               isDense: true,
                               filled: true,
                               border: OutlineInputBorder(),
-                              labelText: 'Enter Mobile No',
+                              labelText: 'Enter Mobile Number',
                               counterText: ""
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter Mobile No';
+                              return 'Please enter Mobile Number';
                             }
                             return null;
                           },

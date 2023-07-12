@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
-import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_colors.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -16,9 +15,10 @@ class UploadedPhotoScreen extends StatefulWidget {
 class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
   @override
   Widget build(BuildContext context) {
+    var backScreenName = Get.arguments[0];
+    var demandNo = Get.arguments[1];
     return GetBuilder<DashboardController>(builder: (cont)
     {
-      var backScreenName = Get.arguments[0];
       return WillPopScope(
         onWillPop: () async {return await cont.navigateFromPhotoUploadedList(backScreenName);},
         child: Scaffold(
@@ -67,20 +67,52 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                       alignment: Alignment.center,
                       child: Padding(
                           padding: const EdgeInsets.only(left:5.0,right: 5.0,top: 10.0,),
-                          child:RichText(
+                          child: cont.language == "English"
+                              ?RichText(
                             text: TextSpan(
-                              text: "Photos For Work Order Number: ",
+                              text: "Photos For Demand Number: ",
                               style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: cont.workOrderNumberToShow.isEmpty?"":cont.workOrderNumberToShow.toString(),
+                                    text: demandNo.isEmpty?"":demandNo.toString(),
                                     style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 16.0)),
                               ],
                             ),
                             textAlign: TextAlign.center,
                           )
+                          : RichText(
+                      text: TextSpan(
+                      text: "मागणी क्रमांक: ",
+                        style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: demandNo.isEmpty?"":demandNo.toString(),
+                              style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 16.0)),
+                        ],
+                      ),
+                textAlign: TextAlign.center,
+              )
                       ),
                     ),
+                    // cont.uploadedPhotoList.isEmpty ? const Opacity(opacity: 0.0):
+                    // Align(
+                    //   alignment: Alignment.center,
+                    //   child: Padding(
+                    //       padding: const EdgeInsets.only(left:5.0,right: 5.0,top: 10.0,),
+                    //       child:RichText(
+                    //         text: TextSpan(
+                    //           text: "Photos For Work Order Number: ",
+                    //           style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),
+                    //           children: <TextSpan>[
+                    //             TextSpan(
+                    //                 text: cont.workOrderNumberToShow.isEmpty?"":cont.workOrderNumberToShow.toString(),
+                    //                 style: const TextStyle(fontWeight: FontWeight.normal,color: Colors.black,fontSize: 16.0)),
+                    //           ],
+                    //         ),
+                    //         textAlign: TextAlign.center,
+                    //       )
+                    //   ),
+                    // ),
                     const SizedBox(height: 10.0,),
                     // Row(
                     //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,14 +160,142 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                     //   );
                     // }),
                     cont.isLoading ? Center(child: buildCircularIndicator(),) :
+                    // Padding(
+                    //     padding: const EdgeInsets.only(left:10.0,right:10.0,bottom: 10.0),
+                    //     child:
+                    //     cont.uploadedPhotoList.isEmpty
+                    //         ? buildTextBoldWidget("Record Not Found", blackColor, context, 14,align: TextAlign.center) :
+                    //     ListView.builder(
+                    //         shrinkWrap: true,
+                    //         itemCount: cont.uploadedPhotoList.length,
+                    //         physics: const NeverScrollableScrollPhysics(),
+                    //         itemBuilder: (context, index) {
+                    //           return Padding(
+                    //             padding: const EdgeInsets.only(left:5.0,right:5.0,bottom: 5.0),
+                    //             child: Container(
+                    //               decoration: BoxDecoration(
+                    //                 borderRadius: BorderRadius.circular(10.0),
+                    //                 border: Border.all(color: Colors.black),
+                    //                 color: Colors.transparent,),
+                    //               child: Padding(
+                    //                 padding: const EdgeInsets.all(10.0),
+                    //                 child: Column(
+                    //                   crossAxisAlignment: CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     cont.language == "English"
+                    //                         ? Text("Uploaded Date : ${cont.uploadedPhotoList[index].createdDate!}", style: const TextStyle(fontWeight: FontWeight.bold),)
+                    //                         : Text("अपलोड केलेली तारीख : ${cont.uploadedPhotoList[index].createdDate!}",style: const TextStyle(fontWeight: FontWeight.bold),),
+                    //                     const Divider(thickness: 2.0,),
+                    //                     SizedBox(
+                    //                       //height: 120,
+                    //                       width: double.infinity,
+                    //                       child:ListView.builder(
+                    //                           shrinkWrap: true,
+                    //                           physics: const NeverScrollableScrollPhysics(),
+                    //                           itemCount: cont.imgList.length,
+                    //                           itemBuilder: (context,imgIndex){
+                    //                             return
+                    //                               cont.uploadedPhotoList[index].createdDate == cont.imgList[imgIndex].createdDate ?
+                    //                               Padding(
+                    //                                   padding: const EdgeInsets.all(5.0),
+                    //                                   child: Column(
+                    //                                     children: [
+                    //                                       Row(
+                    //                                         mainAxisAlignment: MainAxisAlignment.start,
+                    //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                    //                                         children: [
+                    //                                           GestureDetector(
+                    //                                             onTap: (){
+                    //                                               cont.imgList[imgIndex].img == null
+                    //                                                   ?  ScaffoldMessenger.of(context).showSnackBar(
+                    //                                                 const SnackBar(content: Text('Can\'t view image!')),
+                    //                                               )
+                    //                                                   : cont.navigateToViewImage(cont.imgList[imgIndex].img!,backScreenName,demandNo);
+                    //                                             },
+                    //                                             child: Container(
+                    //                                                 height: 100.0,
+                    //                                                 width: 100.0,
+                    //                                                 decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                    //                                                 child: cont.imgList[imgIndex].img == null ?
+                    //                                                 Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
+                    //                                                 Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
+                    //                                                   errorBuilder: (BuildContext context, Object object, StackTrace? stack){
+                    //                                                     return Padding(padding: const EdgeInsets.only(top: 30.0),
+                    //                                                         child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
+                    //                                                   },)
+                    //                                             ),
+                    //                                           ),
+                    //                                           // GestureDetector(
+                    //                                           //   onTap: (){
+                    //                                           //     cont.navigateToViewImage(cont.imgList[imgIndex].img!,backScreenName,demandNo);
+                    //                                           //   },
+                    //                                           //   child: Container(
+                    //                                           //           height: 100.0,
+                    //                                           //           width: 100.0,
+                    //                                           //           decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                    //                                           //   ),
+                    //                                           // ),
+                    //                                           const SizedBox(width: 10.0),
+                    //                                           Flexible(
+                    //                                             child: Column(
+                    //                                               crossAxisAlignment: CrossAxisAlignment.start,
+                    //                                               mainAxisAlignment: MainAxisAlignment.start,
+                    //                                               children: [
+                    //                                                 buildRichTextWidget("Latitude : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].latitude}",
+                    //                                                   title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                    //                                                 buildRichTextWidget("Longitude : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].longitude}",
+                    //                                                   title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                    //                                                 buildRichTextWidget("Address : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].location}",
+                    //                                                   title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                    //                                               ],
+                    //                                             ),
+                    //                                           )
+                    //                                           // Flexible(
+                    //                                           //   child: Table(
+                    //                                           //     columnWidths: const {
+                    //                                           //       0: FlexColumnWidth(5),
+                    //                                           //       1: FlexColumnWidth(5),
+                    //                                           //     },
+                    //                                           //     children: [
+                    //                                           //       //buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
+                    //                                           //       buildTableRowForPhoto(context,"Latitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
+                    //                                           //       buildTableRowForPhoto(context,"Longitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
+                    //                                           //       // buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
+                    //                                           //     ],
+                    //                                           //   ),
+                    //                                           // ),
+                    //
+                    //                                         ],
+                    //                                       ),
+                    //
+                    //                                       // const SizedBox(height: 5.0,),
+                    //                                       // Align(
+                    //                                       //   alignment: Alignment.topLeft,
+                    //                                       //   child:buildRichTextWidget("Address : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].location}",
+                    //                                       //     title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                    //                                       // ),
+                    //                                       const Divider(thickness: 2.0,),
+                    //                                     ],
+                    //                                   )
+                    //                               )
+                    //                                   : const Opacity(opacity: 0.0,);
+                    //                           }),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           );
+                    //         })
+                    // ),
                     Padding(
                         padding: const EdgeInsets.only(left:10.0,right:10.0,bottom: 10.0),
                         child:
-                        cont.uploadedPhotoList.isEmpty
+                        cont.testUploadedList.isEmpty
                             ? buildTextBoldWidget("Record Not Found", blackColor, context, 14,align: TextAlign.center) :
                         ListView.builder(
                             shrinkWrap: true,
-                            itemCount: cont.uploadedPhotoList.length,
+                            itemCount: cont.testUploadedList.length,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Padding(
@@ -151,8 +311,8 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         cont.language == "English"
-                                            ? Text("Uploaded Date : ${cont.uploadedPhotoList[index].createdDate!}", style: const TextStyle(fontWeight: FontWeight.bold),)
-                                            : Text("अपलोड केलेली तारीख : ${cont.uploadedPhotoList[index].createdDate!}",style: const TextStyle(fontWeight: FontWeight.bold),),
+                                            ? Text("Uploaded Date : ${cont.testUploadedList[index].createdDate!}", style: const TextStyle(fontWeight: FontWeight.bold),)
+                                            : Text("अपलोड केलेली तारीख : ${cont.testUploadedList[index].createdDate!}",style: const TextStyle(fontWeight: FontWeight.bold),),
                                         const Divider(thickness: 2.0,),
                                         SizedBox(
                                           //height: 120,
@@ -160,11 +320,10 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                           child:ListView.builder(
                                               shrinkWrap: true,
                                               physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: cont.imgList.length,
+                                              itemCount: cont.testUploadedList[index].testImageList!.length,
                                               itemBuilder: (context,imgIndex){
                                                 return
-
-                                                  cont.uploadedPhotoList[index].createdDate == cont.imgList[imgIndex].createdDate ?
+                                                //  cont.uploadedPhotoList[index].createdDate == cont.imgList[imgIndex].createdDate ?
                                                   Padding(
                                                       padding: const EdgeInsets.all(5.0),
                                                       child: Column(
@@ -175,59 +334,87 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                             children: [
                                                               GestureDetector(
                                                                 onTap: (){
-                                                                  cont.imgList[imgIndex].img == null
+                                                                  cont.testUploadedList[index].testImageList![imgIndex].imagePath == null
                                                                       ?  ScaffoldMessenger.of(context).showSnackBar(
                                                                     const SnackBar(content: Text('Can\'t view image!')),
                                                                   )
-                                                                      : cont.navigateToViewImage(cont.imgList[imgIndex].img!);
+                                                                    //  : cont.navigateToViewImage(cont.testUploadedList[index].testImageList[imgIndex].img!,backScreenName,demandNo);
+                                                                      : cont.navigateToViewImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!,backScreenName,demandNo);
                                                                 },
                                                                 child: Container(
                                                                     height: 100.0,
                                                                     width: 100.0,
-                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black),),
-                                                                    child: cont.imgList[imgIndex].img == null ?
-                                                                    Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
-                                                                    Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
-                                                                      errorBuilder: (BuildContext context, Object object, StackTrace? stack){
-                                                                        return Padding(padding: const EdgeInsets.only(top: 30.0),
-                                                                            child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
-                                                                      },)
+                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black),
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!),
+                                                                      fit: BoxFit.fill
+                                                                    )
+                                                                    ),
+
+                                                                    //child:Image.network(cont.testUploadedList[index].testImageList![imgIndex].imagePath!)
+                                                                    // child: cont.testUploadedList[index].testImageList![imgIndex].imagePath == null ?
+                                                                    // Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
+                                                                    // Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
+                                                                    //   errorBuilder: (BuildContext context, Object object, StackTrace? stack){
+                                                                    //     return Padding(padding: const EdgeInsets.only(top: 30.0),
+                                                                    //         child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
+                                                                    //   },)
                                                                 ),
                                                               ),
-                                                              // Container(
-                                                              //         height: 100.0,
-                                                              //         width: 100.0,
-                                                              //         decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                              // GestureDetector(
+                                                              //   onTap: (){
+                                                              //     cont.navigateToViewImage(cont.imgList[imgIndex].img!,backScreenName,demandNo);
+                                                              //   },
+                                                              //   child: Container(
+                                                              //           height: 100.0,
+                                                              //           width: 100.0,
+                                                              //           decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                              //   ),
                                                               // ),
                                                               const SizedBox(width: 10.0),
                                                               Flexible(
-                                                                child: Table(
-                                                                  columnWidths: const {
-                                                                    0: FlexColumnWidth(5),
-                                                                    1: FlexColumnWidth(5),
-                                                                  },
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                                   children: [
-                                                                    //buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
-                                                                    buildTableRowForPhoto(context,"Latitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
-                                                                    buildTableRowForPhoto(context,"Longitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
-                                                                    // buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
+                                                                    buildRichTextWidget("Latitude : ", "${cont.testUploadedList[index].testImageList!.isEmpty?"":cont.testUploadedList[index].testImageList![imgIndex].latitude}",
+                                                                      title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                                                                    buildRichTextWidget("Longitude : ", "${cont.testUploadedList[index].testImageList!.isEmpty?"":cont.testUploadedList[index].testImageList![imgIndex].longitude}",
+                                                                      title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                                                                    buildRichTextWidget("Address : ", "${cont.testUploadedList[index].testImageList!.isEmpty?"":cont.testUploadedList[index].testImageList![imgIndex].location}",
+                                                                      title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
                                                                   ],
                                                                 ),
                                                               )
+                                                              // Flexible(
+                                                              //   child: Table(
+                                                              //     columnWidths: const {
+                                                              //       0: FlexColumnWidth(5),
+                                                              //       1: FlexColumnWidth(5),
+                                                              //     },
+                                                              //     children: [
+                                                              //       //buildTableRowForPhoto(context,"Photo Taken : ","${cont.imgList[imgIndex].mode}",fontSize:14.0,fontColor:blackColor),
+                                                              //       buildTableRowForPhoto(context,"Latitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].latitude}",fontSize:14.0,fontColor:blackColor),
+                                                              //       buildTableRowForPhoto(context,"Longitude : ","${cont.imgList.isEmpty?"":cont.imgList[imgIndex].longitude}",fontSize:14.0,fontColor:blackColor),
+                                                              //       // buildTableRowForPhoto(context,"Address : ","${cont.imgList[imgIndex].location}",fontSize:14.0,fontColor:blackColor),
+                                                              //     ],
+                                                              //   ),
+                                                              // ),
+
                                                             ],
                                                           ),
 
-                                                          const SizedBox(height: 5.0,),
-                                                          Align(
-                                                            alignment: Alignment.topLeft,
-                                                            child:buildRichTextWidget("Address : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].location}",
-                                                              title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
-                                                          ),
+                                                          // const SizedBox(height: 5.0,),
+                                                          // Align(
+                                                          //   alignment: Alignment.topLeft,
+                                                          //   child:buildRichTextWidget("Address : ", "${cont.imgList.isEmpty?"":cont.imgList[imgIndex].location}",
+                                                          //     title1Weight: FontWeight.w900,title2Weight: FontWeight.normal,),
+                                                          // ),
                                                           const Divider(thickness: 2.0,),
                                                         ],
                                                       )
-                                                  )
-                                                      : const Opacity(opacity: 0.0,);
+                                                  );
+                                                   //   : const Opacity(opacity: 0.0,);
                                               }),
                                         ),
                                       ],

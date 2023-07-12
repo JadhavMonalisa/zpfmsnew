@@ -14,7 +14,6 @@ import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_model.dart';
 import 'package:zpfmsnew/screens/dashboard/payment/payment_model.dart';
 import 'package:zpfmsnew/screens/dashboard/photo_upload/GetViewPhotoModel.dart';
 import 'package:zpfmsnew/screens/dashboard/photo_upload/photo_upload_model.dart';
-import 'package:zpfmsnew/screens/dashboard/track_bill/track_bill_model.dart';
 import 'package:zpfmsnew/screens/dashboard/work_order/work_order_model.dart';
 import 'package:zpfmsnew/utils/utils.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -35,7 +34,8 @@ class DashboardController extends GetxController {
   List<PaymentCountList> paymentList = [];
   List<BillDataFromWorkOrderDetails> billDataFromWorkOrderList = [];
   List<TrackBillFromWorkOrderDetails> trackBillFromWorkOrderList = [];
-  List<BillDetailsListFromTrackBill> trackBillDetailsList = [];
+  //List<BillDetailsListFromTrackBill> trackBillDetailsList = [];
+  List<BillDataFromWorkOrderDetails> trackBillDetailsList = [];
   //List<PaymentLongListDetails> paymentLongList = [];
   List<WorkOrderSearchDetails> searchWorkOrderList = [];
   List<PhotoUploadedDetailsList> photoUploadedList = [];
@@ -102,6 +102,14 @@ class DashboardController extends GetxController {
 
   navigateToProfileFromDrawer(){
     Get.toNamed(AppRoutes.profileScreen);
+    update();
+  }
+
+  navigateToBillListFromPhotoUpload(){
+    isEnterManuallySelected = false; enterManuallyController.clear();
+    isScanQrSelected = false;
+    Get.toNamed(AppRoutes.enterDataScreenFromPhotoUpload);
+    //Get.toNamed(backPressScreen);
     update();
   }
 
@@ -327,25 +335,44 @@ class DashboardController extends GetxController {
   }
 
   String demandNoToShow = "";
-  navigateToTrackBillFromWorkOrder(int billId){
+  // navigateToTrackBillFromWorkOrder(int billId){
+  //   isLoading=true;
+  //   //Get.toNamed(AppRoutes.trackBillFromWorkOrder);
+  //   //callTrackBillFromWorkOrderDataApi(billId);
+  //   demandNoToShow = demandNo;
+  //   callBillDetailsFromTrackBill(billId);
+  //   update();
+  // }
+  //
+  // navigateToBillFromTrackBill(int billId){
+  //   isLoading=true;
+  //   //callTrackBillFromWorkOrderDataApi(billId);
+  //   callBillDetailsFromTrackBill(billId);
+  //   update();
+  // }
+
+  navigateToTrackBillFromWorkOrder(String billId){
     isLoading=true;
     //Get.toNamed(AppRoutes.trackBillFromWorkOrder);
     //callTrackBillFromWorkOrderDataApi(billId);
-    demandNoToShow = demandNo;
+    //demandNoToShow = demandNo;
+    demandNoToShow = billId;
     callBillDetailsFromTrackBill(billId);
     update();
   }
 
-  navigateToBillFromTrackBill(int billId){
+  navigateToBillFromTrackBill(String billId){
     isLoading=true;
     //callTrackBillFromWorkOrderDataApi(billId);
+    demandNoToShow = billId; update();
     callBillDetailsFromTrackBill(billId);
     update();
   }
 
-  goToUploadPhotoScreen(int billId,String backPressScreen){
+  goToUploadPhotoScreen(int billId,String backPressScreen,String demandNumber){
     selectedBillIdForUploadPhoto = billId;
-    Get.toNamed(AppRoutes.beforeAfterPhotoUpload,arguments: [backPressScreen]);
+    demandNoToShow = demandNumber; update();
+    Get.toNamed(AppRoutes.beforeAfterPhotoUpload,arguments: [backPressScreen,demandNumber]);
     getCurrentPosition();
     update();
   }
@@ -382,13 +409,38 @@ class DashboardController extends GetxController {
     }
   }
 
-  void callBillDetailsFromTrackBill(int billId) async {
+  void callBillDetailsFromDemandNoFromTrackBill(String demandNo) async {
     trackBillDetailsList.clear();
     try {
-      BillDetailsFromTrackBillModel? response = (await repository.getBillDetailsFromTrackBill(billId ,token));
+      BillDataFromWorkOrderModel? response = (await repository.getBillDataFromDemandNo(demandNo ,token));
 
       if (response.statusCode==200) {
-        trackBillDetailsList.addAll(response.billDetailsListFromTrackBill!);
+        trackBillDetailsList.addAll(response.billDataFromWorkOrderDetails!);
+        enterManuallyController.clear();
+        isLoading = false;
+        update();
+      } else {
+        isLoading = false;
+        update();
+      }
+    } on CustomException catch (e) {
+      isLoading = false;
+      update();
+    } catch (error) {
+      isLoading = false;
+      update();
+    }
+    Get.toNamed(AppRoutes.trackBillList);
+    update();
+  }
+
+  void callBillDetailsFromTrackBill(String billId) async {
+    trackBillDetailsList.clear();
+    try {
+      BillDataFromWorkOrderModel? response = (await repository.getBillDataFromDemandNo(billId ,token));
+
+      if (response.statusCode==200) {
+        trackBillDetailsList.addAll(response.billDataFromWorkOrderDetails!);
         enterManuallyController.clear();
         isLoading = false;
         update();
@@ -581,7 +633,8 @@ class DashboardController extends GetxController {
         controller.stopCamera();
         result = scanData;
         scanBarcode = result!.code!;
-        navigateToTrackBillFromWorkOrder(int.parse(result!.code!));
+        //navigateToTrackBillFromWorkOrder(int.parse(result!.code!));
+        navigateToTrackBillFromWorkOrder(result!.code!);
       }
 
       update();
@@ -617,9 +670,10 @@ class DashboardController extends GetxController {
         controller.stopCamera();
         result = scanData;
         scanBarcode = result!.code!;
-        callSearchWorkOrderDataApi(int.parse(result!.code!));
+        //callSearchWorkOrderDataApi(int.parse(result!.code!));
+        //callSearchWorkOrderDataApi(int.parse(result!.code!));
+        callBillDataFromDemandNoApi(result!.code!);
       }
-
       update();
     });
   }
@@ -648,19 +702,43 @@ class DashboardController extends GetxController {
     }
   }
 
-  //int? selectedPhotoBillId;
+  void callBillDataFromDemandNoApi(String demandNo) async {
+    billDataFromWorkOrderList.clear();
+    try {
+      BillDataFromWorkOrderModel? response = (await repository.getBillDataFromDemandNo(demandNo ,token));
 
+      if (response.statusCode==200) {
+        billDataFromWorkOrderList.addAll(response.billDataFromWorkOrderDetails!);
+        isLoading = false;
+        enterManuallyController.clear();
+        update();
+      } else {
+        isLoading = false;
+        update();
+      }
+    } on CustomException catch (e) {
+      isLoading = false;
+      update();
+    } catch (error) {
+      isLoading = false;
+      update();
+    }
+    Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
+  }
+
+  //int? selectedPhotoBillId;
 
   int billIdSendToUploadPhotoApi = 0;
 
-  navigateToUploadedPhotos(int billId,String workOrderNo,String backPressScreenName){
+  navigateToUploadedPhotos(int billId,String workOrderNo,String backPressScreenName,String demandNumber){
     workOrderNumberToShow = workOrderNo;
     //selectedPhotoBillId = billId;
     billIdSendToUploadPhotoApi = billId;
-    callPhotoUploadedDataApi(billIdSendToUploadPhotoApi,"After");
-    print("billIdSendToUploadPhotoApi");
-    print(billIdSendToUploadPhotoApi);
-    Get.toNamed(AppRoutes.uploadedPhotoScreen,arguments: [backPressScreenName]);
+    demandNoToShow = demandNumber;
+    //current
+   // callPhotoUploadedDataApi(billIdSendToUploadPhotoApi,"After");
+    testCallPhotoUploadedDataApi(billIdSendToUploadPhotoApi);
+    Get.toNamed(AppRoutes.uploadedPhotoScreen,arguments: [backPressScreenName,demandNumber]);
     //callPhotoUploadedDataApi(billId);
     //update();
   }
@@ -700,7 +778,7 @@ class DashboardController extends GetxController {
         HttpHeaders.contentTypeHeader: "application/json",
       });
       var params = {
-        "BillID": billId, "Mode":mode
+        "BillID": billId,
       };
 
       request.body = jsonEncode(params);
@@ -768,10 +846,6 @@ class DashboardController extends GetxController {
           }
         }
 
-        print("uploadedPhotoList.length");
-        print(uploadedPhotoList.length);
-        print("imgList.length");
-        print(imgList.length);
         isLoading = false;
         update();
       }
@@ -788,84 +862,17 @@ class DashboardController extends GetxController {
     }
   }
 
-  List<TestUploadPhotoResult> testUploadedPhotoResult = [];
-
-  navigateFromPhotoUploadedList(String backScreenName){
-    radioValueOnPhotoList = -1;
-    //Get.toNamed(AppRoutes.searchWorkOrderList);
-    print("backScreenName");
-    print(backScreenName);
-    Get.toNamed(backScreenName);
-    update();
-  }
-  void testCallPhotoUploadedDataApi(int billId,String mode) async {
-    testUploadedPhotoResult.clear();
-    testViewPhotoList.clear();
+  List<TestUploadedPhotoListData> testUploadedList = [];
+  void testCallPhotoUploadedDataApi(int billId) async {
+    photoUploadedList.clear();
+    uploadedPhotoList.clear();
     isLoading = true;
     try {
-      TestUploadPhotoModel? response = await repository.getPhotoUploadedList(billId ,token,mode);
-
-      testUploadedPhotoResult.addAll(response.testUploadPhotoResult!);
-
-      for (var element1 in response.testUploadPhotoResult!) {
-        for (var element2 in element1.testImageList!) {
-
-
-          // TestViewPhotoModel? response = await repository.getPhotoUploadedView(element.id! ,token);
-          // testViewPhotoList.add(response);
-
-          testCallUploadPhotoView(element2.id!);
-
-          //element.viewImage =  response.uint8listPhoto;
-
-          // for(int i =0; i<testUploadedPhotoResult.length; i++){
-          //   for(int j =0; j<testUploadedPhotoResult[i].testImageList!.length; j++){
-          //     testUploadedPhotoResult[i].testImageList![j].viewImage = response.uint8listPhoto;
-          //     print(response.photoId);
-          //
-          //     testUploadedPhotoResult[i].testImageList!.insert(j, TestImageList(
-          //       viewImage: response.uint8listPhoto,
-          //     ));
-          //
-          //     // testUploadedPhotoResult[i].testImageList!.add(
-          //     //     TestImageList(
-          //     //
-          //     //     );
-          //     // );
-          //   }
-          // }
-
-          //testCallUploadPhotoView(element.id!);
-
-          // var request = http.Request(
-          //   'GET',
-          //   Uri.parse("https://api.demofms.com/api/UploadedPhoto/GetUploadedImages"),
-          // )..headers.addAll({
-          //   "Authorization": 'Bearer $token',
-          //   HttpHeaders.contentTypeHeader: "application/json",
-          // });
-          // var params = {
-          //   "ID": data["imageList"][i]["id"],
-          // };
-          //
-          // request.body = jsonEncode(params);
-          // http.StreamedResponse response = await request.send();
-          // var res = await http.Response.fromStream(response);
-          //
-          // if(res.statusCode == 200 ) {
-          //   img = res.bodyBytes;
-          // }
-          // else {
-          //   img = null;
-          // }
-
-        }
-      }
-
+      TestUploadedPhotoList? response = await repository.testGetPhotoUploadedList(billId ,token);
+      testUploadedList.addAll(response.testUploadedPhotoListData!);
       isLoading = false;
       update();
-
-     isLoading = false;
+      isLoading = false;
       update();
 
     } on CustomException catch (e) {
@@ -876,6 +883,94 @@ class DashboardController extends GetxController {
       update();
     }
   }
+
+  List<TestUploadPhotoResult> testUploadedPhotoResult = [];
+
+  navigateFromPhotoUploadedList(String backScreenName){
+    radioValueOnPhotoList = -1;
+    uploadedPhotoList.clear();imgList.clear();
+    //Get.toNamed(AppRoutes.searchWorkOrderList);
+    Get.offNamed(backScreenName);
+    update();
+  }
+  // void testCallPhotoUploadedDataApi(int billId,String mode) async {
+  //   testUploadedPhotoResult.clear();
+  //   testViewPhotoList.clear();
+  //   isLoading = true;
+  //   try {
+  //     TestUploadPhotoModel? response = await repository.getPhotoUploadedList(billId ,token,mode);
+  //
+  //     testUploadedPhotoResult.addAll(response.testUploadPhotoResult!);
+  //
+  //     for (var element1 in response.testUploadPhotoResult!) {
+  //       for (var element2 in element1.testImageList!) {
+  //
+  //
+  //         // TestViewPhotoModel? response = await repository.getPhotoUploadedView(element.id! ,token);
+  //         // testViewPhotoList.add(response);
+  //
+  //         testCallUploadPhotoView(element2.id!);
+  //
+  //         //element.viewImage =  response.uint8listPhoto;
+  //
+  //         // for(int i =0; i<testUploadedPhotoResult.length; i++){
+  //         //   for(int j =0; j<testUploadedPhotoResult[i].testImageList!.length; j++){
+  //         //     testUploadedPhotoResult[i].testImageList![j].viewImage = response.uint8listPhoto;
+  //         //     print(response.photoId);
+  //         //
+  //         //     testUploadedPhotoResult[i].testImageList!.insert(j, TestImageList(
+  //         //       viewImage: response.uint8listPhoto,
+  //         //     ));
+  //         //
+  //         //     // testUploadedPhotoResult[i].testImageList!.add(
+  //         //     //     TestImageList(
+  //         //     //
+  //         //     //     );
+  //         //     // );
+  //         //   }
+  //         // }
+  //
+  //         //testCallUploadPhotoView(element.id!);
+  //
+  //         // var request = http.Request(
+  //         //   'GET',
+  //         //   Uri.parse("https://api.demofms.com/api/UploadedPhoto/GetUploadedImages"),
+  //         // )..headers.addAll({
+  //         //   "Authorization": 'Bearer $token',
+  //         //   HttpHeaders.contentTypeHeader: "application/json",
+  //         // });
+  //         // var params = {
+  //         //   "ID": data["imageList"][i]["id"],
+  //         // };
+  //         //
+  //         // request.body = jsonEncode(params);
+  //         // http.StreamedResponse response = await request.send();
+  //         // var res = await http.Response.fromStream(response);
+  //         //
+  //         // if(res.statusCode == 200 ) {
+  //         //   img = res.bodyBytes;
+  //         // }
+  //         // else {
+  //         //   img = null;
+  //         // }
+  //
+  //       }
+  //     }
+  //
+  //     isLoading = false;
+  //     update();
+  //
+  //    isLoading = false;
+  //     update();
+  //
+  //   } on CustomException catch (e) {
+  //     isLoading = false;
+  //     update();
+  //   } catch (error) {
+  //     isLoading = false;
+  //     update();
+  //   }
+  // }
 
   List<TestViewPhotoModel> testViewPhotoList = [];
 
@@ -975,7 +1070,7 @@ class DashboardController extends GetxController {
   }
 
   String? gender;
-  int radioValue = -1;
+  int radioValue = 1;
   int radioValueOnPhotoList = -1;
 
   handleRadioValueChanged(int value) {
@@ -1018,9 +1113,9 @@ class DashboardController extends GetxController {
     if(imageFile==null){
       Utils.showErrorSnackBar('Please add photo');isLoading = false;update();
     }
-    else if(radioValue==-1){
-      Utils.showErrorSnackBar('Please select before or after');isLoading = false;update();
-    }
+    // else if(radioValue==-1){
+    //   Utils.showErrorSnackBar('Please select before or after');isLoading = false;update();
+    // }
     else{
       //callPhotoUpload(selectedBillIdForUploadPhoto.toString());
       callPhotoSet(selectedBillIdForUploadPhoto.toString());
@@ -1119,6 +1214,7 @@ class DashboardController extends GetxController {
 
   navigateToBillFromPhotoUpload(String backScreenName){
     imageFile=null;isSelected=false;isLoading=false;
+    demandNoToShow="";
     //Get.toNamed(AppRoutes.billDetailsFromPhotoUpload);
     Get.toNamed(backScreenName);
     update();
@@ -1130,11 +1226,17 @@ class DashboardController extends GetxController {
   TextEditingController emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  Uint8List? viewSelectedImage;
+  //Uint8List? viewSelectedImage;
+  String? viewSelectedImage;
 
-  navigateToViewImage(Uint8List image){
+  // navigateToViewImage(Uint8List image,String screen,String demand){
+  //   viewSelectedImage = image;
+  //   Get.toNamed(AppRoutes.viewPhotoScreen,arguments: [screen,demand]);
+  //   update();
+  // }
+  navigateToViewImage(String image,String screen,String demand){
     viewSelectedImage = image;
-    Get.toNamed(AppRoutes.viewPhotoScreen);
+    Get.toNamed(AppRoutes.viewPhotoScreen,arguments: [screen,demand]);
     update();
   }
 

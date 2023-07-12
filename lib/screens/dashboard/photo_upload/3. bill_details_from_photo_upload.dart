@@ -22,7 +22,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (cont){
       return WillPopScope(
-          onWillPop: () async {  return await Get.toNamed(AppRoutes.searchWorkOrderList);},
+          onWillPop: () async {  return await cont.navigateToEnterPhoto();},
           child:Scaffold(
             key: billDetailsFromPUSKey2,
             drawer: const NavDrawer(),
@@ -70,14 +70,14 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                       cont.billDataFromWorkOrderList.isEmpty ? buildNoDataFound(context) :
                       Column(
                         children: [
-                          Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child:  cont.language == "English"
-                                    ? buildRichTextWidget("Work Order Number: ", cont.workOrderNumberToShow.toString(),)
-                                    : buildRichTextWidget("वर्क ऑर्डर क्र.: ", cont.workOrderNumberToShow.toString(),)
-                              )  ),
+                          // Align(
+                          //     alignment: Alignment.center,
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.only(right: 5.0),
+                          //       child:  cont.language == "English"
+                          //           ? buildRichTextWidget("Work Order Number: ", cont.workOrderNumberToShow.toString(),)
+                          //           : buildRichTextWidget("वर्क ऑर्डर क्र.: ", cont.workOrderNumberToShow.toString(),)
+                          //     )  ),
                           const SizedBox(height: 10,),
                           ListView.builder(
                               shrinkWrap: true,
@@ -104,9 +104,9 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                           children: [
                                             Table(
                                               columnWidths: const {
-                                                0: FlexColumnWidth(4),
+                                                0: FlexColumnWidth(5),
                                                 1: FlexColumnWidth(1),
-                                                2: FlexColumnWidth(5),
+                                                2: FlexColumnWidth(4),
                                               },
                                               children: [
                                                 cont.language == "English"
@@ -122,9 +122,9 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                             ),
                                             Table(
                                               columnWidths: const {
-                                                0: FlexColumnWidth(4),
+                                                0: FlexColumnWidth(5),
                                                 1: FlexColumnWidth(1),
-                                                2: FlexColumnWidth(5),
+                                                2: FlexColumnWidth(4),
                                               },
                                               children: [
                                                 cont.language == "English"
@@ -194,9 +194,9 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                             cont.language == "English"
                                             ? Table(
                                               columnWidths: const {
-                                                0: FlexColumnWidth(4),
+                                                0: FlexColumnWidth(5),
                                                 1: FlexColumnWidth(1),
-                                                2: FlexColumnWidth(5),
+                                                2: FlexColumnWidth(4),
                                               },
                                               children: [
                                                 buildTableRow(context, "Bill Date", "${item.billDate}"),
@@ -209,12 +209,12 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 buildSpaceTableRow(),
                                                 buildTableRow(context, "Cashbook Name", "${item.cashBookNameMarathi}"),
                                                 buildSpaceTableRow(),
-                                                buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
-                                                buildSpaceTableRow(),
+                                                // buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
+                                                // buildSpaceTableRow(),
                                                 buildTableRow(context, "Work Order Number", "${item.workOrderNo}"),
                                                 buildSpaceTableRow(),
-                                                buildTableRow(context, "Work Order Name", "${item.workName}"),
-                                                buildSpaceTableRow(),
+                                                // buildTableRow(context, "Work Order Name", "${item.workName}"),
+                                                // buildSpaceTableRow(),
                                                 buildTableRow(context, "Approval Status", "${item.approvalStatus}"),
                                                 buildSpaceTableRow(),
                                                 buildTableRow(context, "Payment Status", "${item.paymentStatus}"),
@@ -240,12 +240,12 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 buildSpaceTableRow(),
                                                 buildTableRow(context, "कॅशबुकचे नाव", "${item.cashBookNameMarathi}"),
                                                 buildSpaceTableRow(),
-                                                buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
-                                                buildSpaceTableRow(),
+                                                // buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
+                                                // buildSpaceTableRow(),
                                                 buildTableRow(context, "वर्क ऑर्डर क्र.", "${item.workOrderNo}"),
                                                 buildSpaceTableRow(),
-                                                buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
-                                                buildSpaceTableRow(),
+                                                // buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
+                                                // buildSpaceTableRow(),
                                                 buildTableRow(context, "मंजुरीची स्थिती", "${item.approvalStatus}"),
                                                 buildSpaceTableRow(),
                                                 buildTableRow(context, "पैसे भरल्याची स्थिती", "${item.paymentStatus}"),
@@ -254,10 +254,17 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                 buildSpaceTableRow(),
                                               ],
                                             ),
+                                            buildRichTextWidget(cont.language=="English"?"Head Name\n":"प्रमुखाचे नाव",
+                                                "${item.headNameMarathi}",
+                                                title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
+                                            buildRichTextWidget(cont.language=="English"?"Work Order Name\n":"वर्क ऑर्डरचे नाव",
+                                                "${item.workName}",
+                                                title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
                                             GestureDetector(
                                                 onTap: (){
-                                                  cont.navigateToUploadedPhotos(int.parse(cont.paymentTypeList[index].billID!),
-                                                      cont.paymentTypeList[index].workOrderNo!,AppRoutes.billDetailsFromPhotoUpload);
+                                                  cont.navigateToUploadedPhotos(int.parse(item.billID!),
+                                                      item.workOrderNo!,AppRoutes.billDetailsFromPhotoUpload,item.demandNo!);
+
                                                 },
                                                 child: Table(
                                                   columnWidths: const {
@@ -292,7 +299,7 @@ class _BillDetailsFromPhotoUploadScreenState extends State<BillDetailsFromPhotoU
                                                   ),
                                                 ),
                                                 onPressed: () {
-                                                  cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.billDetailsFromPhotoUpload);
+                                                  cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.billDetailsFromPhotoUpload,item.demandNo!);
                                                 },
                                                 child:
                                                 cont.language == "English"

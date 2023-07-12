@@ -70,15 +70,15 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                   cont.billDataFromWorkOrderList.isEmpty ? buildNoDataFound(context) :
                   Column(
                     children: [
-                      Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child:
-                              cont.language == "English"
-                                  ? buildRichTextWidget("Work Order Number: ", cont.workOrderNumberToShow.toString(),)
-                                  : buildRichTextWidget("वर्क ऑर्डर क्र.: ", cont.workOrderNumberToShow.toString(),)
-                          )),
+                      // Align(
+                      //     alignment: Alignment.center,
+                      //     child: Padding(
+                      //         padding: const EdgeInsets.only(right: 5.0),
+                      //         child:
+                      //         cont.language == "English"
+                      //             ? buildRichTextWidget("Work Order Number: ", cont.workOrderNumberToShow.toString(),)
+                      //             : buildRichTextWidget("वर्क ऑर्डर क्र.: ", cont.workOrderNumberToShow.toString(),)
+                      //     )),
                       const SizedBox(height: 10,),
                       ListView.builder(
                           shrinkWrap: true,
@@ -204,12 +204,12 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "Cashbook Name", "${item.cashBookNameMarathi}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "Head Name", "${item.headNameMarathi}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "Work Order Number", "${item.workOrderNo}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "Work Order Name", "${item.workName}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "Work Order Name", "${item.workName}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "Approval Status", "${item.approvalStatus}"),
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "Payment Status", "${item.paymentStatus}"),
@@ -235,12 +235,12 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "कॅशबुकचे नाव", "${item.cashBookNameMarathi}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "प्रमुखाचे नाव", "${item.headNameMarathi}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "वर्क ऑर्डर क्र.", "${item.workOrderNo}"),
                                           buildSpaceTableRow(),
-                                          buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
-                                          buildSpaceTableRow(),
+                                          // buildTableRow(context, "वर्क ऑर्डरचे नाव", "${item.workName}"),
+                                          // buildSpaceTableRow(),
                                           buildTableRow(context, "मंजुरीची स्थिती", "${item.approvalStatus}"),
                                           buildSpaceTableRow(),
                                           buildTableRow(context, "पैसे भरल्याची स्थिती", "${item.paymentStatus}"),
@@ -249,9 +249,16 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                           buildSpaceTableRow(),
                                         ],
                                       ),
+                                      buildRichTextWidget(cont.language=="English"?"Head Name\n":"प्रमुखाचे नाव",
+                                          "${item.headNameMarathi}",
+                                          title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
+                                      buildRichTextWidget(cont.language=="English"?"Work Order Name\n":"वर्क ऑर्डरचे नाव", "${item.workName}",
+                                          title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
+
                                       GestureDetector(
                                           onTap: (){
-                                            cont.navigateToUploadedPhotos(int.parse(item.billID!),item.workOrderNo!,AppRoutes.billDetailsFromWorkOrder);
+                                            cont.navigateToUploadedPhotos(int.parse(item.billID!),item.workOrderNo!,
+                                                AppRoutes.billDetailsFromWorkOrder,item.demandNo!);
                                           },
                                           child: Table(
                                             columnWidths: const {
@@ -286,7 +293,7 @@ class _BillDetailsFromWorkOrderState extends State<BillDetailsFromWorkOrder> {
                                             ),
                                           ),
                                           onPressed: () {
-                                            cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.billDetailsFromWorkOrder);
+                                            cont.goToUploadPhotoScreen(int.parse(item.billID!),AppRoutes.billDetailsFromWorkOrder,item.demandNo!);
                                           },
                                           child:
                                           cont.language == "English"

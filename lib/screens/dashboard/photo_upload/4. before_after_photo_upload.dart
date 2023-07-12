@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zpfmsnew/common_widget/widget.dart';
-import 'package:zpfmsnew/routes/app_pages.dart';
 import 'package:zpfmsnew/screens/common/nav_drawer.dart';
 import 'package:zpfmsnew/screens/dashboard/dashboard/dashboard_controller.dart';
 import 'package:zpfmsnew/theme/app_text_theme.dart';
@@ -19,8 +18,7 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
   @override
   Widget build(BuildContext context) {
     var backScreenName = Get.arguments[0];
-    print("backScreenName");
-    print(backScreenName);
+    var demandNo = Get.arguments[1];
     return GetBuilder<DashboardController>(builder: (cont){
     return WillPopScope(
         onWillPop: () async {return await cont.navigateToBillFromPhotoUpload(backScreenName);},
@@ -79,9 +77,9 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                       padding: const EdgeInsets.only(right: 5.0,left:5.0),
                       child:
                       cont.language == "English"
-                          ? buildRichTextWidget("Demand Number: ",  cont.demandNoToShow.toString(),
+                          ? buildRichTextWidget("Demand Number: ",  demandNo.toString(),
                           title1Size: 18.0,title2Size: 18.0)
-                          : buildRichTextWidget("मागणी क्र.: ",  cont.demandNoToShow.toString(),
+                          : buildRichTextWidget("मागणी क्र.: ",  demandNo.toString(),
                           title1Size: 18.0,title2Size: 18.0)
                     )  ),
                 const SizedBox(height: 10.0,),
@@ -135,11 +133,13 @@ class _BeforeAfterPhotoUploadState extends State<BeforeAfterPhotoUpload> {
                           activeColor: Colors.red,
                           value: 1,
                           groupValue: cont.radioValue,
-                          onChanged: (val){cont.handleRadioValueChanged(val!);}),
+                          onChanged: (val){
+                            //cont.handleRadioValueChanged(val!);
+                          }),
                     ),
                     cont.language == "English"
-                    ? buildTextBoldWidget("Physics Progress", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
-                    : buildTextBoldWidget("नंतर", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
+                    ? buildTextBoldWidget("Physical Progress", Colors.black, context, 16.0,fontWeight: FontWeight.normal)
+                    : buildTextBoldWidget("भौतिक प्रगती", Colors.black, context, 16.0,fontWeight: FontWeight.normal),
                   ],
                 ),
 

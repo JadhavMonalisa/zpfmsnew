@@ -86,6 +86,7 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                   child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Table(
                                             columnWidths: const {
@@ -206,20 +207,20 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                                   : buildTableRow(context, "कॅशबुकचे नाव", "${cont.paymentTypeList[index].cashBookNameMarathi}"),
                                               buildSpaceTableRow(),
 
-                                              cont.language == "English"
-                                                  ? buildTableRow(context, "Head Name", "${cont.paymentTypeList[index].headNameMarathi}")
-                                                  : buildTableRow(context, "प्रमुखाचे नाव", "${cont.paymentTypeList[index].headNameMarathi}"),
-                                              buildSpaceTableRow(),
+                                              // cont.language == "English"
+                                              //     ? buildTableRow(context, "Head Name", "${cont.paymentTypeList[index].headNameMarathi}")
+                                              //     : buildTableRow(context, "प्रमुखाचे नाव", "${cont.paymentTypeList[index].headNameMarathi}"),
+                                              // buildSpaceTableRow(),
 
                                               cont.language == "English"
                                                   ? buildTableRow(context, "Work Order No.", "${cont.paymentTypeList[index].workOrderNo}")
                                                   : buildTableRow(context, "वर्क ऑर्डर क्र.", "${cont.paymentTypeList[index].workOrderNo}"),
                                               buildSpaceTableRow(),
 
-                                              cont.language == "English"
-                                                  ? buildTableRow(context, "Work Order Name", "${cont.paymentTypeList[index].workName}")
-                                                  : buildTableRow(context, "वर्क ऑर्डरचे नाव", "${cont.paymentTypeList[index].workName}"),
-                                              buildSpaceTableRow(),
+                                              // cont.language == "English"
+                                              //     ? buildTableRow(context, "Work Order Name", "${cont.paymentTypeList[index].workName}")
+                                              //     : buildTableRow(context, "वर्क ऑर्डरचे नाव", "${cont.paymentTypeList[index].workName}"),
+                                              // buildSpaceTableRow(),
 
                                               cont.language == "English"
                                                   ? buildTableRow(context, "Approval Status", "${cont.paymentTypeList[index].approvalStatus}")
@@ -237,10 +238,17 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                               buildSpaceTableRow(),
                                             ],
                                           ),
+                                          buildRichTextWidget(cont.language=="English"?"Head Name\n":"प्रमुखाचे नाव",
+                                              "${cont.paymentTypeList[index].headNameMarathi}",
+                                              title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
+                                          buildRichTextWidget(cont.language=="English"?"Work Order Name\n":"वर्क ऑर्डरचे नाव",
+                                              "${cont.paymentTypeList[index].workName}",
+                                              title1Size: 16.5,title2Size: 16.5,title1Weight: FontWeight.w900),
                                           GestureDetector(
                                               onTap: (){
                                                 cont.navigateToUploadedPhotos(int.parse(cont.paymentTypeList[index].billID!),
-                                                    cont.paymentTypeList[index].workOrderNo!,AppRoutes.paymentLongDataScreen);
+                                                    cont.paymentTypeList[index].workOrderNo!,
+                                                    AppRoutes.paymentLongDataScreen,cont.paymentTypeList[index].demandNo!);
                                               },
                                               child: Table(
                                                 columnWidths: const {
@@ -275,7 +283,8 @@ class _PaymentLongDataScreenState extends State<PaymentLongDataScreen> {
                                                 ),
                                               ),
                                               onPressed: () {
-                                                cont.goToUploadPhotoScreen(int.parse(cont.paymentTypeList[index].billID!),AppRoutes.paymentLongDataScreen);
+                                                cont.goToUploadPhotoScreen(int.parse(cont.paymentTypeList[index].billID!),
+                                                    AppRoutes.paymentLongDataScreen,cont.paymentTypeList[index].demandNo!);
                                               },
                                               child:
                                               cont.language == "English"

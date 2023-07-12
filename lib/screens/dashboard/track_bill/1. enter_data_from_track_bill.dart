@@ -176,7 +176,9 @@ class _EnterManuallyForTrackBillState extends State<EnterManuallyForTrackBill> {
                                   }
                                   else{
                                     ///same used in work order
-                                    cont.navigateToBillFromTrackBill(int.parse(cont.enterManuallyController.text));
+                                    //cont.navigateToBillFromTrackBill(int.parse(cont.enterManuallyController.text));
+                                    cont.demandNoToShow = cont.enterManuallyController.text;
+                                    cont.navigateToBillFromTrackBill(cont.enterManuallyController.text);
                                   }
                                 },
                                 child: const Text(

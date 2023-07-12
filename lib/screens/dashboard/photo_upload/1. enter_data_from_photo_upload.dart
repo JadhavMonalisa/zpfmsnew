@@ -171,8 +171,10 @@ class _EnterDataScreenState extends State<EnterDataScreen> {
                                 );
                               }
                               else{
-                                cont.callSearchWorkOrderDataApi(int.parse(cont.enterManuallyController.text));
+                                //cont.callSearchWorkOrderDataApi(int.parse(cont.enterManuallyController.text));
                                 //cont.navigateToBillDataFromEnterManually();
+                                cont.demandNoToShow = cont.enterManuallyController.text;
+                                cont.callBillDataFromDemandNoApi(cont.enterManuallyController.text);
                               }
                             },
                             child: const Text(
