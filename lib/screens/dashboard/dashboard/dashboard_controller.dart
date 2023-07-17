@@ -888,7 +888,7 @@ class DashboardController extends GetxController {
 
   navigateFromPhotoUploadedList(String backScreenName){
     radioValueOnPhotoList = -1;
-    uploadedPhotoList.clear();imgList.clear();
+    uploadedPhotoList.clear();imgList.clear();testUploadedList.clear();
     //Get.toNamed(AppRoutes.searchWorkOrderList);
     Get.offNamed(backScreenName);
     update();
