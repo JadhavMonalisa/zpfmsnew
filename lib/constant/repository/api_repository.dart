@@ -94,6 +94,8 @@ class ApiRepository {
     });
 
     var params = {"PartyId": partyId,"WorkID": workId };
+    print("params");
+    print(params);
     request.body = jsonEncode(params);
     http.StreamedResponse response = await request.send();
     final responsebody = await response.stream.bytesToString();

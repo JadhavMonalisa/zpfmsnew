@@ -332,45 +332,45 @@ class _UploadedPhotoScreenState extends State<UploadedPhotoScreen> {
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              GestureDetector(
-                                                                onTap: (){
-                                                                  cont.testUploadedList[index].testImageList![imgIndex].imagePath == null
-                                                                      ?  ScaffoldMessenger.of(context).showSnackBar(
-                                                                    const SnackBar(content: Text('Can\'t view image!')),
-                                                                  )
-                                                                    //  : cont.navigateToViewImage(cont.testUploadedList[index].testImageList[imgIndex].img!,backScreenName,demandNo);
-                                                                      : cont.navigateToViewImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!,backScreenName,demandNo);
-                                                                },
-                                                                child: Container(
-                                                                    height: 100.0,
-                                                                    width: 100.0,
-                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black),
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!),
-                                                                      fit: BoxFit.fill
-                                                                    )
-                                                                    ),
-
-                                                                    //child:Image.network(cont.testUploadedList[index].testImageList![imgIndex].imagePath!)
-                                                                    // child: cont.testUploadedList[index].testImageList![imgIndex].imagePath == null ?
-                                                                    // Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
-                                                                    // Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
-                                                                    //   errorBuilder: (BuildContext context, Object object, StackTrace? stack){
-                                                                    //     return Padding(padding: const EdgeInsets.only(top: 30.0),
-                                                                    //         child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
-                                                                    //   },)
-                                                                ),
-                                                              ),
                                                               // GestureDetector(
                                                               //   onTap: (){
-                                                              //     cont.navigateToViewImage(cont.imgList[imgIndex].img!,backScreenName,demandNo);
+                                                              //     cont.testUploadedList[index].testImageList![imgIndex].imagePath == null
+                                                              //         ?  ScaffoldMessenger.of(context).showSnackBar(
+                                                              //       const SnackBar(content: Text('Can\'t view image!')),
+                                                              //     )
+                                                              //       //  : cont.navigateToViewImage(cont.testUploadedList[index].testImageList[imgIndex].img!,backScreenName,demandNo);
+                                                              //         : cont.navigateToViewImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!,backScreenName,demandNo);
                                                               //   },
                                                               //   child: Container(
-                                                              //           height: 100.0,
-                                                              //           width: 100.0,
-                                                              //           decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                              //       height: 100.0,
+                                                              //       width: 100.0,
+                                                              //       decoration: BoxDecoration(border: Border.all(color: Colors.black),
+                                                              //       image: DecorationImage(
+                                                              //           image: NetworkImage(cont.testUploadedList[index].testImageList![imgIndex].imagePath!),
+                                                              //         fit: BoxFit.fill
+                                                              //       )
+                                                              //       ),
+                                                              //
+                                                              //       //child:Image.network(cont.testUploadedList[index].testImageList![imgIndex].imagePath!)
+                                                              //       // child: cont.testUploadedList[index].testImageList![imgIndex].imagePath == null ?
+                                                              //       // Center(child:buildTextBoldWidget("Can't\nupload", Colors.black, context, 10.0,align: TextAlign.center)):
+                                                              //       // Image.memory(cont.imgList[imgIndex].img!, fit: BoxFit.fill,
+                                                              //       //   errorBuilder: (BuildContext context, Object object, StackTrace? stack){
+                                                              //       //     return Padding(padding: const EdgeInsets.only(top: 30.0),
+                                                              //       //         child: buildTextBoldWidget("No Image Found", Colors.black, context, 10.0,align: TextAlign.center));
+                                                              //       //   },)
                                                               //   ),
                                                               // ),
+                                                              GestureDetector(
+                                                                onTap: (){
+                                                                 // cont.navigateToViewImage(cont.imgList[imgIndex].img!,backScreenName,demandNo);
+                                                                },
+                                                                child: Container(
+                                                                        height: 100.0,
+                                                                        width: 100.0,
+                                                                        decoration: BoxDecoration(border: Border.all(color: Colors.black),),
+                                                                ),
+                                                              ),
                                                               const SizedBox(width: 10.0),
                                                               Flexible(
                                                                 child: Column(

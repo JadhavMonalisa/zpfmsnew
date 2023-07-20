@@ -888,9 +888,11 @@ class DashboardController extends GetxController {
 
   navigateFromPhotoUploadedList(String backScreenName){
     radioValueOnPhotoList = -1;
-    uploadedPhotoList.clear();imgList.clear();testUploadedList.clear();
+    uploadedPhotoList.clear();imgList.clear();
+    testUploadedList.clear();
     //Get.toNamed(AppRoutes.searchWorkOrderList);
-    Get.offNamed(backScreenName);
+   // callBillDetailsFromWorkOrderDataApi(workId);
+    Get.toNamed(backScreenName);
     update();
   }
   // void testCallPhotoUploadedDataApi(int billId,String mode) async {
